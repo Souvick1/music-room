@@ -24,7 +24,6 @@
       transition: background 0.5s ease;
     }
 
-    /* Top Navigation Bar */
     .top-bar {
       width: 100%;
       max-width: 480px;
@@ -47,9 +46,7 @@
       border: 1px solid rgba(255,255,255,0.1);
     }
     .dot { width: 8px; height: 8px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 8px #00ff88; }
-    .top-icons { display: flex; gap: 10px; font-size: 1.1rem; opacity: 0.8; }
 
-    /* Main Branding Typography */
     .brand-container {
       text-align: center;
       margin-top: -40px;
@@ -63,7 +60,6 @@
       letter-spacing: 2px;
     }
 
-    /* Bottom Floating Player Bar */
     .player-bar {
       width: 100%;
       max-width: 440px;
@@ -82,7 +78,6 @@
       z-index: 10;
     }
 
-    /* Circular Spinning Artwork */
     .art-container { position: relative; width: 58px; height: 58px; flex-shrink: 0; }
     .art-circle {
       width: 100%;
@@ -100,7 +95,6 @@
     .title { font-size: 0.95rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
     .artist { font-size: 0.75rem; color: #ccc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 6px; }
 
-    /* Progress Bar & Timing */
     .progress-container { width: 100%; display: flex; flex-direction: column; gap: 4px; }
     .progress-bar {
       width: 100%;
@@ -113,7 +107,6 @@
     .progress-fill { width: 0%; height: 100%; background: white; border-radius: 2px; }
     .time-display { font-size: 0.65rem; color: #aaa; }
 
-    /* Control Buttons */
     .controls { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
     .btn-icon { background: none; border: none; color: white; font-size: 0.9rem; cursor: pointer; opacity: 0.8; transition: 0.2s; }
     .btn-icon:hover { opacity: 1; }
@@ -132,7 +125,6 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
 
-    /* Background Switcher floating menu */
     .bg-menu { position: fixed; top: 60px; right: 16px; display: flex; flex-direction: column; gap: 6px; z-index: 10; }
     .bg-btn { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 4px 8px; border-radius: 8px; font-size: 0.65rem; cursor: pointer; }
     input[type="file"] { display: none; }
@@ -140,23 +132,17 @@
 </head>
 <body>
 
-  <!-- Top Status Bar -->
   <div class="top-bar">
     <div class="time-stamp" id="clock">12:28 am</div>
     <div class="status-badge">
       <span class="dot"></span> <span id="onlineCount">31 online</span>
     </div>
-    <div class="top-icons">
-      <span>🟢</span>
-    </div>
   </div>
 
-  <!-- Center Hindi Logo Branding -->
   <div class="brand-container">
     <div class="hindi-title">डीलक्स<br>सैलून</div>
   </div>
 
-  <!-- Quick Background Change Options -->
   <div class="bg-menu">
     <button class="bg-btn" onclick="setBg('preset1')">🖼️ Red Salon</button>
     <button class="bg-btn" onclick="setBg('preset2')">🌌 Midnight</button>
@@ -164,7 +150,6 @@
     <input type="file" id="customBg" accept="image/*" onchange="uploadBg(event)">
   </div>
 
-  <!-- Bottom Floating Audio Player -->
   <div class="player-bar">
     <div class="art-container">
       <img id="cover" class="art-circle" src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&q=80" alt="Cover">
@@ -190,7 +175,7 @@
   </div>
 
   <audio id="audioEngine" ontimeupdate="updateProgress()" onended="nextTrack()">
-    <source id="audioSource" src="https://actions.google.com/sounds/v1/ambiences/outdoor_synth.ogg" type="audio/ogg">
+    <source id="audioSource" src="song1.mp3" type="audio/mpeg">
   </audio>
 
   <script>
@@ -198,20 +183,8 @@
       {
         title: "Mujhse Mohabbat Ka Izhaar",
         artist: "Satrang Music Official",
-        src: "https://actions.google.com/sounds/v1/ambiences/outdoor_synth.ogg",
+        src: "song1.mp3",
         cover: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&q=80"
-      },
-      {
-        title: "90s Romantic Melodies",
-        artist: "Kumar Sanu & Alka Yagnik",
-        src: "https://actions.google.com/sounds/v1/weather/rain_heavy_loud.ogg",
-        cover: "https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=500&q=80"
-      },
-      {
-        title: "Evergreen 90s Hits",
-        artist: "Udit Narayan Classics",
-        src: "https://actions.google.com/sounds/v1/water/waves_crashing.ogg",
-        cover: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&q=80"
       }
     ];
 
@@ -281,7 +254,6 @@
       return `${m}:${s < 10 ? '0' : ''}${s}`;
     }
 
-    // Live Clock & User Counter
     function updateClock() {
       const now = new Date();
       document.getElementById('clock').innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).toLowerCase();
@@ -294,7 +266,6 @@
       document.getElementById('onlineCount').innerText = `${count} online`;
     }, 4000);
 
-    // Background Management
     const bgs = {
       preset1: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=1600&q=80',
       preset2: 'https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?w=1600&q=80'
