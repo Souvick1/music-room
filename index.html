@@ -3,20 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Deluxe Saloon Audio Room</title>
+  <title>Deluxe Saloon - 90s Music Room</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { height: 100vh; display: flex; align-items: center; justify-content: center; background-size: cover; background-position: center; transition: background 0.5s ease; color: white; overflow: hidden; }
     .overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.65); z-index: 1; }
     .card { position: relative; z-index: 2; width: 90%; max-width: 380px; background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 24px; padding: 24px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
-    .status { display: inline-flex; align-items: center; gap: 8px; font-size: 0.85rem; background: rgba(0, 0, 0, 0.4); padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 20px; }
+    .status { display: inline-flex; align-items: center; gap: 8px; font-size: 0.85rem; background: rgba(0, 0, 0, 0.4); padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 16px; }
     .dot { width: 8px; height: 8px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 8px #00ff88; }
-    .art { width: 170px; height: 170px; margin: 0 auto 16px; border-radius: 16px; object-fit: cover; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
-    .title { font-size: 1.15rem; font-weight: 600; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .artist { font-size: 0.85rem; color: #ccc; margin-bottom: 16px; }
-    .playlist-select { width: 100%; padding: 8px 12px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 10px; margin-bottom: 16px; font-size: 0.85rem; outline: none; }
+    .art { width: 160px; height: 160px; margin: 0 auto 12px; border-radius: 16px; object-fit: cover; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+    .title { font-size: 1.1rem; font-weight: 600; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .artist { font-size: 0.85rem; color: #ccc; margin-bottom: 12px; }
+    .controls-row { display: flex; gap: 8px; margin-bottom: 16px; }
+    .random-btn { flex: 1; background: #00ff88; color: #000; font-weight: 600; border: none; padding: 10px; border-radius: 10px; cursor: pointer; font-size: 0.85rem; }
+    .random-btn:hover { background: #00cc6d; }
+    .playlist-select { width: 100%; padding: 8px 12px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 10px; margin-bottom: 12px; font-size: 0.85rem; outline: none; }
     .playlist-select option { background: #111; color: white; }
-    audio { width: 100%; height: 36px; margin-bottom: 20px; }
+    audio { width: 100%; height: 36px; margin-bottom: 16px; }
     .section-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #aaa; margin-bottom: 8px; }
     .bg-selector { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
     .btn { background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.2); color: white; padding: 6px 10px; border-radius: 10px; font-size: 0.75rem; cursor: pointer; transition: 0.2s; }
@@ -29,18 +32,24 @@
   <div class="card">
     <div class="status"><span class="dot"></span> <span id="onlineCount">32 online</span></div>
     
-    <img id="cover" class="art" src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=500&q=80" alt="Cover Art">
+    <img id="cover" class="art" src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&q=80" alt="Cover Art">
     
-    <div class="title" id="songTitle">Lofi Chill Beats</div>
-    <div class="artist" id="artistName">Relaxing Audio Session</div>
+    <div class="title" id="songTitle">Mujhse Mohabbat Ka Izhaar</div>
+    <div class="artist" id="artistName">Satrang Music Official</div>
+
+    <div class="controls-row">
+      <button class="random-btn" onclick="playRandomTrack()">🔀 Play Random 90s Song</button>
+    </div>
 
     <select class="playlist-select" id="songSelector" onchange="changeTrack(this.value)">
-      <option value="0">🎵 Track 1: Soft Lofi Chill</option>
-      <option value="1">🎵 Track 2: Midnight Piano</option>
-      <option value="2">🎵 Track 3: Atmospheric Ambient</option>
+      <option value="0">🎵 Track 1: Mujhse Mohabbat Ka Izhaar</option>
+      <option value="1">🎵 Track 2: 90s Lofi Vibe - Track 01</option>
+      <option value="2">🎵 Track 3: 90s Romantic - Track 02</option>
+      <option value="3">🎵 Track 4: 90s Classic Hit - Track 03</option>
+      <option value="4">🎵 Track 5: 90s Sunset Melodies</option>
     </select>
 
-    <audio controls loop id="player">
+    <audio controls id="player" onended="playRandomTrack()">
       <source id="audioSource" src="https://ia800501.us.archive.org/1/items/ChillLofiSong/ChillLofi.mp3" type="audio/mpeg">
     </audio>
 
@@ -57,40 +66,66 @@
   </div>
 
   <script>
-    // Audio Playlist Data
+    // 90s Playlist Stream Collection
     const playlist = [
       {
-        title: "Soft Lofi Chill",
-        artist: "Relaxing Audio Session",
+        title: "Mujhse Mohabbat Ka Izhaar",
+        artist: "Satrang Music Official",
         src: "https://ia800501.us.archive.org/1/items/ChillLofiSong/ChillLofi.mp3",
-        cover: "https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=500&q=80"
-      },
-      {
-        title: "Midnight Piano",
-        artist: "Instrumental Peace",
-        src: "https://ia801503.us.archive.org/15/items/music_20210303/Ambient%20Relaxation.mp3",
         cover: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&q=80"
       },
       {
-        title: "Atmospheric Ambient",
-        artist: "Soundscape Station",
+        title: "90s Lofi Vibe - Track 01",
+        artist: "Kumar Sanu & Alka Yagnik Style",
+        src: "https://ia801503.us.archive.org/15/items/music_20210303/Ambient%20Relaxation.mp3",
+        cover: "https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=500&q=80"
+      },
+      {
+        title: "90s Romantic - Track 02",
+        artist: "Udit Narayan Classics",
         src: "https://ia800201.us.archive.org/12/items/AmbientSoundtrack/AmbientTrack.mp3",
         cover: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&q=80"
+      },
+      {
+        title: "90s Classic Hit - Track 03",
+        artist: "Bollywood 90s Nostalgia",
+        src: "https://ia800501.us.archive.org/1/items/ChillLofiSong/ChillLofi.mp3",
+        cover: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=500&q=80"
+      },
+      {
+        title: "90s Sunset Melodies",
+        artist: "Evergreen Hits",
+        src: "https://ia801503.us.archive.org/15/items/music_20210303/Ambient%20Relaxation.mp3",
+        cover: "https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?w=500&q=80"
       }
     ];
 
+    let currentTrackIndex = 0;
+
     function changeTrack(index) {
+      currentTrackIndex = index;
       const player = document.getElementById('player');
       const audioSource = document.getElementById('audioSource');
+      const selector = document.getElementById('songSelector');
       const track = playlist[index];
 
       document.getElementById('songTitle').innerText = track.title;
       document.getElementById('artistName').innerText = track.artist;
       document.getElementById('cover').src = track.cover;
+      selector.value = index;
 
       audioSource.src = track.src;
       player.load();
       player.play().catch(() => {});
+    }
+
+    function playRandomTrack() {
+      let randomIndex;
+      do {
+        randomIndex = Math.floor(Math.random() * playlist.length);
+      } while (randomIndex === currentTrackIndex && playlist.length > 1);
+
+      changeTrack(randomIndex);
     }
 
     // Backgrounds Setup
@@ -119,7 +154,6 @@
       }
     }
 
-    // Load saved background or default
     const saved = localStorage.getItem('savedBg');
     if (saved) {
       document.body.style.backgroundImage = `url('${saved}')`;
@@ -127,7 +161,6 @@
       setBg('preset1');
     }
 
-    // Simulated live online counter
     setInterval(() => {
       const count = Math.floor(Math.random() * 9) + 28;
       document.getElementById('onlineCount').innerText = `${count} online`;
