@@ -3,10 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>डीलक्स सैलून - Deluxe Saloon</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Yatra+One&display=swap" rel="stylesheet">
+  <title>Audio Room</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     
@@ -24,6 +21,7 @@
       transition: background 0.5s ease;
     }
 
+    /* Top Navigation Bar */
     .top-bar {
       width: 100%;
       max-width: 480px;
@@ -47,19 +45,7 @@
     }
     .dot { width: 8px; height: 8px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 8px #00ff88; }
 
-    .brand-container {
-      text-align: center;
-      margin-top: -40px;
-      z-index: 5;
-    }
-    .hindi-title {
-      font-family: 'Yatra One', cursive, serif;
-      font-size: 3.8rem;
-      line-height: 1.1;
-      text-shadow: 0 4px 20px rgba(0,0,0,0.8);
-      letter-spacing: 2px;
-    }
-
+    /* Bottom Floating Player Bar - Lifted Up */
     .player-bar {
       width: 100%;
       max-width: 440px;
@@ -74,11 +60,11 @@
       justify-content: space-between;
       gap: 12px;
       box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-      margin-bottom: 10px;
+      margin-bottom: 28px; /* Elevated position */
       z-index: 10;
     }
 
-    .art-container { position: relative; width: 58px; height: 58px; flex-shrink: 0; }
+    .art-container { position: relative; width: 54px; height: 54px; flex-shrink: 0; }
     .art-circle {
       width: 100%;
       height: 100%;
@@ -92,7 +78,7 @@
     @keyframes spin { 100% { transform: rotate(360deg); } }
 
     .song-details { flex: 1; overflow: hidden; }
-    .title { font-size: 0.95rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
+    .title { font-size: 0.9rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
     .artist { font-size: 0.75rem; color: #ccc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 6px; }
 
     .progress-container { width: 100%; display: flex; flex-direction: column; gap: 4px; }
@@ -125,6 +111,7 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
 
+    /* Floating Background Options */
     .bg-menu { position: fixed; top: 60px; right: 16px; display: flex; flex-direction: column; gap: 6px; z-index: 10; }
     .bg-btn { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 4px 8px; border-radius: 8px; font-size: 0.65rem; cursor: pointer; }
     input[type="file"] { display: none; }
@@ -132,17 +119,15 @@
 </head>
 <body>
 
+  <!-- Top Status Bar -->
   <div class="top-bar">
-    <div class="time-stamp" id="clock">12:28 am</div>
+    <div class="time-stamp" id="clock">12:42 am</div>
     <div class="status-badge">
       <span class="dot"></span> <span id="onlineCount">31 online</span>
     </div>
   </div>
 
-  <div class="brand-container">
-    <div class="hindi-title">डीलक्स<br>सैलून</div>
-  </div>
-
+  <!-- Background Options -->
   <div class="bg-menu">
     <button class="bg-btn" onclick="setBg('preset1')">🖼️ Red Salon</button>
     <button class="bg-btn" onclick="setBg('preset2')">🌌 Midnight</button>
@@ -150,6 +135,7 @@
     <input type="file" id="customBg" accept="image/*" onchange="uploadBg(event)">
   </div>
 
+  <!-- Player Bar -->
   <div class="player-bar">
     <div class="art-container">
       <img id="cover" class="art-circle" src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&q=80" alt="Cover">
