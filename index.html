@@ -1,278 +1,1621 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Audio Room</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,
+      initial-scale=1.0,
+      maximum-scale=1.0,
+      user-scalable=no">
+
+<title>Music Room</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+
+    min-height: 100vh;
+
+    background:
+        url("https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=1600&q=80")
+        center / cover no-repeat fixed;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 16px;
+
+    overflow: hidden;
+
+    color: white;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    transition:
+        background-image .6s ease;
+}
+
+
+/* ================================
+   DARK OVERLAY
+================================ */
+
+body::before {
+
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0,0,0,.30),
+            rgba(0,0,0,.10),
+            rgba(0,0,0,.70)
+        );
+
+    z-index: 0;
+
+    pointer-events: none;
+}
+
+
+/* ================================
+   TOP BAR
+================================ */
+
+.top-bar {
+
+    width: 100%;
+
+    max-width: 480px;
+
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    align-items: center;
+
+    padding:
+        8px 12px;
+
+    position: relative;
+
+    z-index: 10;
+}
+
+
+.clock {
+
+    font-size:
+        .9rem;
+
+    font-weight:
+        600;
+}
+
+
+.status {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding:
+        6px 12px;
+
+    background:
+        rgba(0,0,0,.45);
+
+    border:
+        1px solid
+        rgba(255,255,255,.12);
+
+    border-radius:
+        20px;
+
+    backdrop-filter:
+        blur(12px);
+
+    font-size:
+        .72rem;
+}
+
+
+.status-dot {
+
+    width: 8px;
+
+    height: 8px;
+
+    border-radius: 50%;
+
+    background:
+        #00ff88;
+
+    box-shadow:
+        0 0 8px
+        #00ff88;
+}
+
+
+/* ================================
+   BACKGROUND MENU
+================================ */
+
+.bg-menu {
+
+    position: fixed;
+
+    top: 65px;
+
+    right: 15px;
+
+    display: flex;
+
+    flex-direction:
+        column;
+
+    gap: 6px;
+
+    z-index: 20;
+}
+
+
+.bg-btn {
+
+    padding:
+        7px 10px;
+
+    border-radius:
+        9px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.18);
+
+    background:
+        rgba(0,0,0,.48);
+
+    color:
+        white;
+
+    backdrop-filter:
+        blur(12px);
+
+    font-size:
+        .68rem;
+
+    cursor:
+        pointer;
+
+    transition:
+        .2s;
+}
+
+
+.bg-btn:hover {
+
+    background:
+        rgba(255,255,255,.20);
+}
+
+
+.bg-btn:active {
+
+    transform:
+        scale(.94);
+}
+
+
+input[type="file"] {
+
+    display:
+        none;
+}
+
+
+/* ================================
+   PLAYER
+================================ */
+
+.player {
+
+    width: 100%;
+
+    max-width: 460px;
+
+    position:
+        relative;
+
+    z-index:
+        10;
+
+    margin-bottom:
+        25px;
+
+    padding:
+        12px 16px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        12px;
+
+    background:
+        rgba(25,20,20,.68);
+
+    border:
+        1px solid
+        rgba(255,255,255,.15);
+
+    border-radius:
+        40px;
+
+    backdrop-filter:
+        blur(22px);
+
+    -webkit-backdrop-filter:
+        blur(22px);
+
+    box-shadow:
+        0 20px 50px
+        rgba(0,0,0,.55);
+}
+
+
+/* ================================
+   ALBUM ART
+================================ */
+
+.album-art {
+
+    width:
+        56px;
+
+    height:
+        56px;
+
+    flex-shrink:
+        0;
+
+    object-fit:
+        cover;
+
+    border-radius:
+        50%;
+
+    box-shadow:
+        0 5px 20px
+        rgba(0,0,0,.55);
+
+    animation:
+        spin 12s linear infinite;
+
+    animation-play-state:
+        paused;
+}
+
+
+.album-art.playing {
+
+    animation-play-state:
+        running;
+}
+
+
+@keyframes spin {
+
+    from {
+        transform:
+            rotate(0deg);
+    }
+
+    to {
+        transform:
+            rotate(360deg);
+    }
+}
+
+
+/* ================================
+   SONG INFORMATION
+================================ */
+
+.song-info {
+
+    flex:
+        1;
+
+    min-width:
+        0;
+}
+
+
+.song-title {
+
+    font-size:
+        .9rem;
+
+    font-weight:
+        600;
+
+    white-space:
+        nowrap;
+
+    overflow:
+        hidden;
+
+    text-overflow:
+        ellipsis;
+
+    margin-bottom:
+        3px;
+}
+
+
+.song-artist {
+
+    font-size:
+        .73rem;
+
+    color:
+        #ccc;
+
+    white-space:
+        nowrap;
+
+    overflow:
+        hidden;
+
+    text-overflow:
+        ellipsis;
+
+    margin-bottom:
+        7px;
+}
+
+
+/* ================================
+   PROGRESS
+================================ */
+
+.progress {
+
+    width:
+        100%;
+
+    height:
+        4px;
+
+    background:
+        rgba(255,255,255,.20);
+
+    border-radius:
+        4px;
+
+    cursor:
+        pointer;
+
+    overflow:
+        hidden;
+}
+
+
+.progress-fill {
+
+    width:
+        0%;
+
+    height:
+        100%;
+
+    background:
+        white;
+
+    border-radius:
+        4px;
+
+    transition:
+        width .1s linear;
+}
+
+
+.time {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    margin-top:
+        4px;
+
+    font-size:
+        .60rem;
+
+    color:
+        #aaa;
+}
+
+
+/* ================================
+   CONTROLS
+================================ */
+
+.controls {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        6px;
+
+    flex-shrink:
+        0;
+}
+
+
+.icon-btn {
+
+    width:
+        30px;
+
+    height:
+        30px;
+
+    border:
+        none;
+
+    background:
+        transparent;
+
+    color:
+        white;
+
+    font-size:
+        15px;
+
+    cursor:
+        pointer;
+
+    opacity:
+        .85;
+}
+
+
+.icon-btn:hover {
+
+    opacity:
+        1;
+}
+
+
+.play-btn {
+
+    width:
+        43px;
+
+    height:
+        43px;
+
+    border:
+        none;
+
+    border-radius:
+        50%;
+
+    background:
+        white;
+
+    color:
+        black;
+
+    font-size:
+        15px;
+
+    cursor:
+        pointer;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    box-shadow:
+        0 5px 15px
+        rgba(0,0,0,.4);
+}
+
+
+/* ================================
+   JAMENDO CREDIT
+================================ */
+
+.credit {
+
+    position:
+        fixed;
+
+    bottom:
+        7px;
+
+    left:
+        50%;
+
+    transform:
+        translateX(-50%);
+
+    font-size:
+        9px;
+
+    color:
+        rgba(255,255,255,.55);
+
+    z-index:
+        5;
+
+    white-space:
+        nowrap;
+}
+
+
+/* ================================
+   MOBILE
+================================ */
+
+@media(max-width:500px) {
+
     body {
-      height: 100vh;
-      width: 100vw;
-      background: url('https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=1600&q=80') center/cover no-repeat;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px;
-      overflow: hidden;
-      color: white;
-      transition: background 0.5s ease;
+        padding:
+            12px;
     }
 
-    .top-bar {
-      width: 100%;
-      max-width: 480px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 12px;
-      z-index: 10;
-    }
-    .time-stamp { font-size: 0.9rem; font-weight: 600; opacity: 0.9; }
-    .status-badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.8rem;
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(10px);
-      padding: 6px 12px;
-      border-radius: 20px;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    .dot { width: 8px; height: 8px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 8px #00ff88; }
+    .player {
 
-    .player-bar {
-      width: 100%;
-      max-width: 440px;
-      background: rgba(30, 20, 20, 0.65);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 40px;
-      padding: 12px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-      margin-bottom: 28px;
-      z-index: 10;
+        padding:
+            10px 12px;
+
+        gap:
+            8px;
     }
 
-    .art-container { position: relative; width: 54px; height: 54px; flex-shrink: 0; }
-    .art-circle {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      object-fit: cover;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-      animation: spin 12s linear infinite;
-      animation-play-state: paused;
-    }
-    .art-circle.playing { animation-play-state: running; }
-    @keyframes spin { 100% { transform: rotate(360deg); } }
+    .album-art {
 
-    .song-details { flex: 1; overflow: hidden; }
-    .title { font-size: 0.9rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
-    .artist { font-size: 0.75rem; color: #ccc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 6px; }
+        width:
+            48px;
 
-    .progress-container { width: 100%; display: flex; flex-direction: column; gap: 4px; }
-    .progress-bar {
-      width: 100%;
-      height: 3px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 2px;
-      cursor: pointer;
-      position: relative;
-    }
-    .progress-fill { width: 0%; height: 100%; background: white; border-radius: 2px; }
-    .time-display { font-size: 0.65rem; color: #aaa; }
-
-    .controls { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-    .btn-icon { background: none; border: none; color: white; font-size: 0.9rem; cursor: pointer; opacity: 0.8; transition: 0.2s; }
-    .btn-icon:hover { opacity: 1; }
-    .btn-play {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: white;
-      color: black;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        height:
+            48px;
     }
 
-    .bg-menu { position: fixed; top: 60px; right: 16px; display: flex; flex-direction: column; gap: 6px; z-index: 10; }
-    .bg-btn { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 4px 8px; border-radius: 8px; font-size: 0.65rem; cursor: pointer; }
-    input[type="file"] { display: none; }
-  </style>
+    .play-btn {
+
+        width:
+            40px;
+
+        height:
+            40px;
+    }
+
+    .controls {
+
+        gap:
+            2px;
+    }
+
+    .bg-menu {
+
+        right:
+            10px;
+    }
+}
+
+</style>
 </head>
+
+
 <body>
 
-  <div class="top-bar">
-    <div class="time-stamp" id="clock">12:42 am</div>
-    <div class="status-badge">
-      <span class="dot"></span> <span id="onlineCount">31 online</span>
-    </div>
-  </div>
 
-  <div class="bg-menu">
-    <button class="bg-btn" onclick="setBg('preset1')">🖼️ Red Salon</button>
-    <button class="bg-btn" onclick="setBg('preset2')">🌌 Midnight</button>
-    <label class="bg-btn" for="customBg">📁 Custom</label>
-    <input type="file" id="customBg" accept="image/*" onchange="uploadBg(event)">
-  </div>
+<!-- ================================
+     TOP BAR
+================================ -->
 
-  <div class="player-bar">
-    <div class="art-container">
-      <img id="cover" class="art-circle" src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&q=80" alt="Cover">
+<div class="top-bar">
+
+    <div
+        class="clock"
+        id="clock">
+
+        00:00
+
     </div>
 
-    <div class="song-details">
-      <div class="title" id="songTitle">Mujhse Mohabbat Ka Izhaar</div>
-      <div class="artist" id="artistName">Satrang Music Official</div>
-      
-      <div class="progress-container">
-        <div class="progress-bar" onclick="seekTrack(event)">
-          <div class="progress-fill" id="progressFill"></div>
+
+    <div class="status">
+
+        <span class="status-dot"></span>
+
+        <span>
+            ONLINE MUSIC
+        </span>
+
+    </div>
+
+</div>
+
+
+
+<!-- ================================
+     BACKGROUND MENU
+================================ -->
+
+<div class="bg-menu">
+
+    <button
+        class="bg-btn"
+        onclick="changeBackground(0)">
+
+        🌊 Ocean
+
+    </button>
+
+
+    <button
+        class="bg-btn"
+        onclick="changeBackground(1)">
+
+        🌌 Space
+
+    </button>
+
+
+    <button
+        class="bg-btn"
+        onclick="changeBackground(2)">
+
+        🌲 Forest
+
+    </button>
+
+
+    <button
+        class="bg-btn"
+        onclick="changeBackground(3)">
+
+        🌃 Night
+
+    </button>
+
+
+    <button
+        class="bg-btn"
+        onclick="changeBackground(4)">
+
+        🌅 Sunset
+
+    </button>
+
+
+    <button
+        class="bg-btn"
+        onclick="document
+        .getElementById('backgroundUpload')
+        .click()">
+
+        🖼️ My Background
+
+    </button>
+
+
+    <input
+        id="backgroundUpload"
+        type="file"
+        accept="image/*"
+        onchange="customBackground(event)"
+    >
+
+</div>
+
+
+
+<!-- ================================
+     MUSIC PLAYER
+================================ -->
+
+<div class="player">
+
+
+    <img
+        id="albumArt"
+        class="album-art"
+
+        src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=500&q=80"
+
+        alt="Album Art"
+    >
+
+
+    <div class="song-info">
+
+
+        <div
+            class="song-title"
+            id="songTitle">
+
+            Loading music...
+
         </div>
-        <div class="time-display"><span id="currTime">0:00</span> / <span id="durTime">0:00</span></div>
-      </div>
+
+
+        <div
+            class="song-artist"
+            id="songArtist">
+
+            Jamendo
+
+        </div>
+
+
+        <div
+            class="progress"
+            id="progress">
+
+            <div
+                class="progress-fill"
+                id="progressFill">
+            </div>
+
+        </div>
+
+
+        <div class="time">
+
+            <span id="currentTime">
+                0:00
+            </span>
+
+            <span id="duration">
+                0:00
+            </span>
+
+        </div>
+
     </div>
+
+
 
     <div class="controls">
-      <button class="btn-icon" onclick="prevTrack()">⏮</button>
-      <button class="btn-play" id="playBtn" onclick="togglePlay()">▶</button>
-      <button class="btn-icon" onclick="nextTrack()">⏭</button>
+
+
+        <button
+            class="icon-btn"
+            onclick="previousTrack()">
+
+            ⏮
+
+        </button>
+
+
+        <button
+            class="play-btn"
+            id="playButton"
+            onclick="togglePlay()">
+
+            ▶
+
+        </button>
+
+
+        <button
+            class="icon-btn"
+            onclick="nextTrack()">
+
+            ⏭
+
+        </button>
+
+
+        <button
+            class="icon-btn"
+            id="volumeButton"
+            onclick="toggleMute()">
+
+            🔊
+
+        </button>
+
     </div>
-  </div>
 
-  <audio id="audioEngine" ontimeupdate="updateProgress()" onended="nextTrack()">
-    <source id="audioSource" src="https://stream.zeno.fm/f3wvbbqmdg8uv" type="audio/mpeg">
-  </audio>
+</div>
 
-  <script>
-    const playlist = [
-      {
-        title: "Mujhse Mohabbat Ka Izhaar",
-        artist: "Satrang Music Official",
-        src: "https://stream.zeno.fm/f3wvbbqmdg8uv",
-        cover: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&q=80"
-      },
-      {
-        title: "90s Bollywood Evergreen Hits",
-        artist: "Kumar Sanu & Alka Yagnik",
-        src: "https://stream.zeno.fm/f3wvbbqmdg8uv",
-        cover: "https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=500&q=80"
-      }
-    ];
 
-    let currentTrack = 0;
-    const audio = document.getElementById('audioEngine');
-    const playBtn = document.getElementById('playBtn');
-    const cover = document.getElementById('cover');
 
-    function togglePlay() {
-      if (audio.paused) {
-        audio.play().then(() => {
-          playBtn.innerText = '⏸';
-          cover.classList.add('playing');
-        }).catch(e => console.log(e));
-      } else {
+<!-- ================================
+     AUDIO
+================================ -->
+
+<audio
+    id="audio"
+    preload="metadata"
+    playsinline>
+</audio>
+
+
+
+<div class="credit">
+
+    Music provided through Jamendo API
+
+</div>
+
+
+
+<script>
+
+/* ==================================================
+   JAMENDO
+================================================== */
+
+/*
+    TEST CLIENT ID
+
+    Replace this with YOUR Jamendo client_id
+    before publishing the final version.
+*/
+
+const JAMENDO_CLIENT_ID =
+    "709fa152";
+
+
+/*
+    We ask Jamendo for featured music.
+
+    No search box is used.
+
+    You can change the genre later:
+
+    lounge
+    electronic
+    jazz
+    classical
+    relaxation
+    pop
+    rock
+    world
+
+    Jamendo documents these as supported
+    featured selections.
+*/
+
+const API_URL =
+    "https://api.jamendo.com/v3.0/tracks/?" +
+
+    "client_id=" +
+    encodeURIComponent(JAMENDO_CLIENT_ID) +
+
+    "&format=json" +
+
+    "&limit=30" +
+
+    "&featured=1" +
+
+    "&tags=lounge" +
+
+    "&audioformat=mp32" +
+
+    "&imagesize=300";
+
+
+/* ==================================================
+   ELEMENTS
+================================================== */
+
+const audio =
+    document.getElementById("audio");
+
+const playButton =
+    document.getElementById("playButton");
+
+const volumeButton =
+    document.getElementById("volumeButton");
+
+const albumArt =
+    document.getElementById("albumArt");
+
+const songTitle =
+    document.getElementById("songTitle");
+
+const songArtist =
+    document.getElementById("songArtist");
+
+const progress =
+    document.getElementById("progress");
+
+const progressFill =
+    document.getElementById("progressFill");
+
+const currentTime =
+    document.getElementById("currentTime");
+
+const duration =
+    document.getElementById("duration");
+
+
+let tracks = [];
+
+let currentTrack = 0;
+
+
+/* ==================================================
+   GET MUSIC FROM JAMENDO
+================================================== */
+
+async function loadMusic() {
+
+    songTitle.textContent =
+        "Loading music...";
+
+    songArtist.textContent =
+        "Connecting to Jamendo";
+
+
+    try {
+
+        const response =
+            await fetch(API_URL);
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Jamendo API request failed"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !data.results ||
+            data.results.length === 0
+        ) {
+
+            throw new Error(
+                "No tracks returned"
+            );
+
+        }
+
+
+        tracks =
+            data.results.filter(
+                track =>
+                    track.audio
+            );
+
+
+        if (tracks.length === 0) {
+
+            throw new Error(
+                "No playable tracks found"
+            );
+
+        }
+
+
+        /*
+            Shuffle the tracks so
+            visitors don't always hear
+            the same order.
+        */
+
+        shuffle(tracks);
+
+
+        currentTrack = 0;
+
+        loadTrack(currentTrack);
+
+
+    } catch(error) {
+
+        console.error(error);
+
+        songTitle.textContent =
+            "Unable to load music";
+
+        songArtist.textContent =
+            "Please try again";
+
+    }
+
+}
+
+
+/* ==================================================
+   LOAD TRACK
+================================================== */
+
+function loadTrack(index) {
+
+    if (!tracks.length) return;
+
+
+    const track =
+        tracks[index];
+
+
+    songTitle.textContent =
+        track.name ||
+        "Unknown Track";
+
+
+    songArtist.textContent =
+        track.artist_name ||
+        "Unknown Artist";
+
+
+    /*
+        Jamendo provides an image
+        field for tracks.
+    */
+
+    if (track.image) {
+
+        albumArt.src =
+            track.image;
+
+    }
+
+
+    /*
+        IMPORTANT:
+
+        This is the online audio
+        stream returned by Jamendo.
+
+        No MP3 is stored on GitHub.
+    */
+
+    audio.src =
+        track.audio;
+
+
+    audio.load();
+
+
+    progressFill.style.width =
+        "0%";
+
+
+    currentTime.textContent =
+        "0:00";
+
+
+    duration.textContent =
+        formatTime(track.duration);
+
+}
+
+
+/* ==================================================
+   PLAY
+================================================== */
+
+function togglePlay() {
+
+    if (audio.paused) {
+
+        audio.play()
+
+        .then(() => {
+
+            playButton.textContent =
+                "❚❚";
+
+            albumArt.classList.add(
+                "playing"
+            );
+
+        })
+
+        .catch(error => {
+
+            console.error(error);
+
+            alert(
+                "Tap Play again to start the music."
+            );
+
+        });
+
+    } else {
+
         audio.pause();
-        playBtn.innerText = '▶';
-        cover.classList.remove('playing');
-      }
+
+        playButton.textContent =
+            "▶";
+
+        albumArt.classList.remove(
+            "playing"
+        );
+
     }
 
-    function loadTrack(index) {
-      currentTrack = index;
-      const track = playlist[currentTrack];
-      document.getElementById('songTitle').innerText = track.title;
-      document.getElementById('artistName').innerText = track.artist;
-      document.getElementById('cover').src = track.cover;
-      document.getElementById('audioSource').src = track.src;
-      audio.load();
-      if (!audio.paused || playBtn.innerText === '⏸') {
-        audio.play();
-        cover.classList.add('playing');
-      }
+}
+
+
+/* ==================================================
+   NEXT
+================================================== */
+
+function nextTrack() {
+
+    if (!tracks.length) return;
+
+
+    currentTrack++;
+
+
+    if (
+        currentTrack >=
+        tracks.length
+    ) {
+
+        currentTrack = 0;
+
     }
 
-    function nextTrack() {
-      currentTrack = (currentTrack + 1) % playlist.length;
-      loadTrack(currentTrack);
+
+    loadTrack(currentTrack);
+
+
+    audio.play()
+
+    .then(() => {
+
+        playButton.textContent =
+            "❚❚";
+
+        albumArt.classList.add(
+            "playing"
+        );
+
+    })
+
+    .catch(console.error);
+
+}
+
+
+/* ==================================================
+   PREVIOUS
+================================================== */
+
+function previousTrack() {
+
+    if (!tracks.length) return;
+
+
+    currentTrack--;
+
+
+    if (currentTrack < 0) {
+
+        currentTrack =
+            tracks.length - 1;
+
     }
 
-    function prevTrack() {
-      currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
-      loadTrack(currentTrack);
+
+    loadTrack(currentTrack);
+
+
+    audio.play()
+
+    .then(() => {
+
+        playButton.textContent =
+            "❚❚";
+
+        albumArt.classList.add(
+            "playing"
+        );
+
+    })
+
+    .catch(console.error);
+
+}
+
+
+/* ==================================================
+   AUTOMATIC NEXT SONG
+================================================== */
+
+audio.addEventListener(
+    "ended",
+    () => {
+
+        nextTrack();
+
+    }
+);
+
+
+/* ==================================================
+   PROGRESS
+================================================== */
+
+audio.addEventListener(
+    "timeupdate",
+    () => {
+
+        if (!audio.duration)
+            return;
+
+
+        const percentage =
+            (
+                audio.currentTime /
+                audio.duration
+            ) * 100;
+
+
+        progressFill.style.width =
+            percentage + "%";
+
+
+        currentTime.textContent =
+            formatTime(
+                audio.currentTime
+            );
+
+    }
+);
+
+
+/* ==================================================
+   DURATION
+================================================== */
+
+audio.addEventListener(
+    "loadedmetadata",
+    () => {
+
+        duration.textContent =
+            formatTime(
+                audio.duration
+            );
+
+    }
+);
+
+
+/* ==================================================
+   SEEK
+================================================== */
+
+progress.addEventListener(
+    "click",
+    event => {
+
+        if (!audio.duration)
+            return;
+
+
+        const rect =
+            progress.getBoundingClientRect();
+
+
+        const position =
+            event.clientX -
+            rect.left;
+
+
+        const percentage =
+            position /
+            rect.width;
+
+
+        audio.currentTime =
+            percentage *
+            audio.duration;
+
+    }
+);
+
+
+/* ==================================================
+   TIME FORMAT
+================================================== */
+
+function formatTime(seconds) {
+
+    if (
+        !seconds ||
+        isNaN(seconds)
+    ) {
+
+        return "0:00";
+
     }
 
-    function updateProgress() {
-      if (audio.duration && !isNaN(audio.duration)) {
-        const pct = (audio.currentTime / audio.duration) * 100;
-        document.getElementById('progressFill').style.width = pct + '%';
-        document.getElementById('currTime').innerText = formatTime(audio.currentTime);
-        document.getElementById('durTime').innerText = formatTime(audio.duration);
-      } else {
-        document.getElementById('currTime').innerText = formatTime(audio.currentTime);
-        document.getElementById('durTime').innerText = "LIVE";
-      }
+
+    const minutes =
+        Math.floor(
+            seconds / 60
+        );
+
+
+    const secondsPart =
+        Math.floor(
+            seconds % 60
+        )
+        .toString()
+        .padStart(2, "0");
+
+
+    return (
+        minutes +
+        ":" +
+        secondsPart
+    );
+
+}
+
+
+/* ==================================================
+   MUTE
+================================================== */
+
+function toggleMute() {
+
+    audio.muted =
+        !audio.muted;
+
+
+    volumeButton.textContent =
+        audio.muted
+        ? "🔇"
+        : "🔊";
+
+}
+
+
+/* ==================================================
+   SHUFFLE
+================================================== */
+
+function shuffle(array) {
+
+    for (
+        let i = array.length - 1;
+        i > 0;
+        i--
+    ) {
+
+        const j =
+            Math.floor(
+                Math.random() *
+                (i + 1)
+            );
+
+
+        [
+            array[i],
+            array[j]
+        ] =
+        [
+            array[j],
+            array[i]
+        ];
+
     }
 
-    function seekTrack(e) {
-      if (audio.duration && !isNaN(audio.duration)) {
-        const bar = e.currentTarget;
-        const clickPosition = (e.pageX - bar.offsetLeft) / bar.offsetWidth;
-        audio.currentTime = clickPosition * audio.duration;
-      }
+}
+
+
+/* ==================================================
+   BACKGROUNDS
+================================================== */
+
+const backgrounds = [
+
+    "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=1600&q=80",
+
+    "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1600&q=80",
+
+    "https://images.unsplash.com/photo-1448375240586-882707db888b?w=1600&q=80",
+
+    "https://images.unsplash.com/photo-1519608487953-e999c86e7455?w=1600&q=80",
+
+    "https://images.unsplash.com/photo-1500534623283-312aade485b7?w=1600&q=80"
+
+];
+
+
+function changeBackground(index) {
+
+    document.body.style.backgroundImage =
+        `url("${backgrounds[index]}")`;
+
+
+    localStorage.setItem(
+        "selectedBackground",
+        backgrounds[index]
+    );
+
+}
+
+
+/* ==================================================
+   CUSTOM BACKGROUND
+================================================== */
+
+function customBackground(event) {
+
+    const file =
+        event.target.files[0];
+
+
+    if (!file)
+        return;
+
+
+    if (
+        !file.type.startsWith(
+            "image/"
+        )
+    ) {
+
+        alert(
+            "Please select an image."
+        );
+
+        return;
+
     }
 
-    function formatTime(sec) {
-      const m = Math.floor(sec / 60);
-      const s = Math.floor(sec % 60);
-      return `${m}:${s < 10 ? '0' : ''}${s}`;
-    }
 
-    function updateClock() {
-      const now = new Date();
-      document.getElementById('clock').innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).toLowerCase();
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
+    const reader =
+        new FileReader();
 
-    setInterval(() => {
-      const count = Math.floor(Math.random() * 5) + 29;
-      document.getElementById('onlineCount').innerText = `${count} online`;
-    }, 4000);
 
-    const bgs = {
-      preset1: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=1600&q=80',
-      preset2: 'https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?w=1600&q=80'
-    };
+    reader.onload =
+        function(event) {
 
-    function setBg(key) {
-      document.body.style.backgroundImage = `url('${bgs[key]}')`;
-    }
+            const image =
+                event.target.result;
 
-    function uploadBg(e) {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(evt) {
-          document.body.style.backgroundImage = `url('${evt.target.result}')`;
+
+            document.body.style.backgroundImage =
+                `url("${image}")`;
+
+
+            localStorage.setItem(
+                "customBackground",
+                image
+            );
+
         };
-        reader.readAsDataURL(file);
-      }
-    }
-  </script>
+
+
+    reader.readAsDataURL(file);
+
+}
+
+
+/* ==================================================
+   RESTORE BACKGROUND
+================================================== */
+
+const savedCustomBackground =
+    localStorage.getItem(
+        "customBackground"
+    );
+
+
+const savedBackground =
+    localStorage.getItem(
+        "selectedBackground"
+    );
+
+
+if (savedCustomBackground) {
+
+    document.body.style.backgroundImage =
+        `url("${savedCustomBackground}")`;
+
+} else if (savedBackground) {
+
+    document.body.style.backgroundImage =
+        `url("${savedBackground}")`;
+
+}
+
+
+/* ==================================================
+   CLOCK
+================================================== */
+
+function updateClock() {
+
+    const now =
+        new Date();
+
+
+    document.getElementById(
+        "clock"
+    ).textContent =
+
+        now.toLocaleTimeString(
+            [],
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+
+}
+
+
+updateClock();
+
+
+setInterval(
+    updateClock,
+    1000
+);
+
+
+/* ==================================================
+   START
+================================================== */
+
+loadMusic();
+
+</script>
+
 </body>
 </html>
