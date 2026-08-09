@@ -21,7 +21,6 @@
       transition: background 0.5s ease;
     }
 
-    /* Top Navigation Bar */
     .top-bar {
       width: 100%;
       max-width: 480px;
@@ -45,7 +44,6 @@
     }
     .dot { width: 8px; height: 8px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 8px #00ff88; }
 
-    /* Bottom Floating Player Bar - Lifted Up */
     .player-bar {
       width: 100%;
       max-width: 440px;
@@ -60,7 +58,7 @@
       justify-content: space-between;
       gap: 12px;
       box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-      margin-bottom: 28px; /* Elevated position */
+      margin-bottom: 28px;
       z-index: 10;
     }
 
@@ -111,7 +109,6 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
 
-    /* Floating Background Options */
     .bg-menu { position: fixed; top: 60px; right: 16px; display: flex; flex-direction: column; gap: 6px; z-index: 10; }
     .bg-btn { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 4px 8px; border-radius: 8px; font-size: 0.65rem; cursor: pointer; }
     input[type="file"] { display: none; }
@@ -119,7 +116,6 @@
 </head>
 <body>
 
-  <!-- Top Status Bar -->
   <div class="top-bar">
     <div class="time-stamp" id="clock">12:42 am</div>
     <div class="status-badge">
@@ -127,7 +123,6 @@
     </div>
   </div>
 
-  <!-- Background Options -->
   <div class="bg-menu">
     <button class="bg-btn" onclick="setBg('preset1')">🖼️ Red Salon</button>
     <button class="bg-btn" onclick="setBg('preset2')">🌌 Midnight</button>
@@ -135,7 +130,6 @@
     <input type="file" id="customBg" accept="image/*" onchange="uploadBg(event)">
   </div>
 
-  <!-- Player Bar -->
   <div class="player-bar">
     <div class="art-container">
       <img id="cover" class="art-circle" src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&q=80" alt="Cover">
@@ -161,7 +155,7 @@
   </div>
 
   <audio id="audioEngine" ontimeupdate="updateProgress()" onended="nextTrack()">
-    <source id="audioSource" src="song1.mp3" type="audio/mpeg">
+    <source id="audioSource" src="https://stream.zeno.fm/f3wvbbqmdg8uv" type="audio/mpeg">
   </audio>
 
   <script>
@@ -169,8 +163,14 @@
       {
         title: "Mujhse Mohabbat Ka Izhaar",
         artist: "Satrang Music Official",
-        src: "song1.mp3",
+        src: "https://stream.zeno.fm/f3wvbbqmdg8uv",
         cover: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&q=80"
+      },
+      {
+        title: "90s Bollywood Evergreen Hits",
+        artist: "Kumar Sanu & Alka Yagnik",
+        src: "https://stream.zeno.fm/f3wvbbqmdg8uv",
+        cover: "https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=500&q=80"
       }
     ];
 
@@ -209,29 +209,31 @@
     function nextTrack() {
       currentTrack = (currentTrack + 1) % playlist.length;
       loadTrack(currentTrack);
-      togglePlay();
     }
 
     function prevTrack() {
       currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
       loadTrack(currentTrack);
-      togglePlay();
     }
 
     function updateProgress() {
-      if (audio.duration) {
+      if (audio.duration && !isNaN(audio.duration)) {
         const pct = (audio.currentTime / audio.duration) * 100;
         document.getElementById('progressFill').style.width = pct + '%';
-        
         document.getElementById('currTime').innerText = formatTime(audio.currentTime);
         document.getElementById('durTime').innerText = formatTime(audio.duration);
+      } else {
+        document.getElementById('currTime').innerText = formatTime(audio.currentTime);
+        document.getElementById('durTime').innerText = "LIVE";
       }
     }
 
     function seekTrack(e) {
-      const bar = e.currentTarget;
-      const clickPosition = (e.pageX - bar.offsetLeft) / bar.offsetWidth;
-      audio.currentTime = clickPosition * audio.duration;
+      if (audio.duration && !isNaN(audio.duration)) {
+        const bar = e.currentTarget;
+        const clickPosition = (e.pageX - bar.offsetLeft) / bar.offsetWidth;
+        audio.currentTime = clickPosition * audio.duration;
+      }
     }
 
     function formatTime(sec) {
