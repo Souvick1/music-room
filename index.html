@@ -50,7 +50,7 @@
     </select>
 
     <audio controls id="player" onended="playRandomTrack()">
-      <source id="audioSource" src="https://ia800501.us.archive.org/1/items/ChillLofiSong/ChillLofi.mp3" type="audio/mpeg">
+      <source id="audioSource" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
 
     <div class="section-label">Select Background</div>
@@ -66,36 +66,35 @@
   </div>
 
   <script>
-    // 90s Playlist Stream Collection
     const playlist = [
       {
         title: "Mujhse Mohabbat Ka Izhaar",
         artist: "Satrang Music Official",
-        src: "https://ia800501.us.archive.org/1/items/ChillLofiSong/ChillLofi.mp3",
+        src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
         cover: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500&q=80"
       },
       {
         title: "90s Lofi Vibe - Track 01",
         artist: "Kumar Sanu & Alka Yagnik Style",
-        src: "https://ia801503.us.archive.org/15/items/music_20210303/Ambient%20Relaxation.mp3",
+        src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
         cover: "https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=500&q=80"
       },
       {
         title: "90s Romantic - Track 02",
         artist: "Udit Narayan Classics",
-        src: "https://ia800201.us.archive.org/12/items/AmbientSoundtrack/AmbientTrack.mp3",
+        src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
         cover: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&q=80"
       },
       {
         title: "90s Classic Hit - Track 03",
         artist: "Bollywood 90s Nostalgia",
-        src: "https://ia800501.us.archive.org/1/items/ChillLofiSong/ChillLofi.mp3",
+        src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
         cover: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=500&q=80"
       },
       {
         title: "90s Sunset Melodies",
         artist: "Evergreen Hits",
-        src: "https://ia801503.us.archive.org/15/items/music_20210303/Ambient%20Relaxation.mp3",
+        src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
         cover: "https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?w=500&q=80"
       }
     ];
@@ -103,16 +102,16 @@
     let currentTrackIndex = 0;
 
     function changeTrack(index) {
-      currentTrackIndex = index;
+      currentTrackIndex = parseInt(index);
       const player = document.getElementById('player');
       const audioSource = document.getElementById('audioSource');
       const selector = document.getElementById('songSelector');
-      const track = playlist[index];
+      const track = playlist[currentTrackIndex];
 
       document.getElementById('songTitle').innerText = track.title;
       document.getElementById('artistName').innerText = track.artist;
       document.getElementById('cover').src = track.cover;
-      selector.value = index;
+      selector.value = currentTrackIndex;
 
       audioSource.src = track.src;
       player.load();
@@ -128,7 +127,6 @@
       changeTrack(randomIndex);
     }
 
-    // Backgrounds Setup
     const bgs = {
       preset1: 'https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?w=1600&q=80',
       preset2: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=1600&q=80',
