@@ -2,211 +2,335 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+
 <meta name="viewport"
-      content="width=device-width,initial-scale=1.0,
-               maximum-scale=1.0,user-scalable=no">
+      content="width=device-width,
+               initial-scale=1,
+               maximum-scale=1,
+               user-scalable=no">
+
+<meta name="theme-color" content="#0b0d12">
 
 <title>Music Room</title>
 
 <style>
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-html, body {
+html,
+body {
     width: 100%;
     height: 100%;
 }
 
 body {
+
     min-height: 100vh;
 
-    background:
-        url("https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=1600&q=80")
-        center / cover no-repeat fixed;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
     color: white;
-    font-family: Arial, Helvetica, sans-serif;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 
     overflow: hidden;
 
-    transition: background-image .5s ease;
+    background:
+        url("https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=1600&q=85")
+        center center / cover no-repeat fixed;
+
+    transition:
+        background-image .5s ease;
+
 }
 
-/* Dark overlay */
+/* Dark cinematic overlay */
+
 body::before {
+
     content: "";
+
     position: fixed;
+
     inset: 0;
 
     background:
         linear-gradient(
-            to bottom,
-            rgba(0,0,0,.28),
-            rgba(0,0,0,.12),
-            rgba(0,0,0,.72)
+            180deg,
+            rgba(0,0,0,.20) 0%,
+            rgba(0,0,0,.08) 40%,
+            rgba(0,0,0,.72) 100%
         );
 
     z-index: 0;
+
     pointer-events: none;
+
 }
+
 
 /* =========================
    TOP BAR
 ========================= */
 
 .top-bar {
+
     position: relative;
+
     z-index: 10;
 
     width: 100%;
-    max-width: 480px;
 
-    padding: 45px 16px 0;
+    max-width: 520px;
+
+    margin: 0 auto;
+
+    padding:
+        48px
+        18px
+        0;
 
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
 }
 
 .clock {
+
     font-size: 28px;
+
     font-weight: 600;
+
+    letter-spacing: -.5px;
+
+    text-shadow:
+        0 2px 10px rgba(0,0,0,.4);
+
 }
 
 .status {
+
     display: flex;
+
     align-items: center;
+
     gap: 8px;
 
-    padding: 9px 15px;
+    padding:
+        10px
+        16px;
 
-    background: rgba(0,0,0,.48);
+    border:
+        1px solid
+        rgba(255,255,255,.16);
 
-    border: 1px solid rgba(255,255,255,.14);
+    border-radius: 30px;
 
-    border-radius: 25px;
+    background:
+        rgba(10,10,14,.48);
 
-    backdrop-filter: blur(15px);
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
 
     font-size: 14px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(0,0,0,.22);
+
 }
 
 .status-dot {
+
     width: 9px;
+
     height: 9px;
 
     border-radius: 50%;
 
     background: #00ff88;
 
-    box-shadow: 0 0 10px #00ff88;
+    box-shadow:
+        0 0 12px
+        #00ff88;
+
 }
+
 
 /* =========================
    BACKGROUND MENU
 ========================= */
 
 .bg-menu {
+
     position: fixed;
 
-    top: 110px;
+    z-index: 20;
+
+    top: 105px;
+
     right: 12px;
 
     display: flex;
-    flex-direction: column;
-    gap: 7px;
 
-    z-index: 20;
+    flex-direction: column;
+
+    gap: 8px;
+
 }
 
 .bg-btn {
-    padding: 9px 13px;
+
+    min-width: 170px;
+
+    padding:
+        11px
+        14px;
 
     color: white;
 
-    background: rgba(0,0,0,.48);
+    font-size: 14px;
 
     border:
         1px solid
-        rgba(255,255,255,.18);
+        rgba(255,255,255,.16);
 
-    border-radius: 12px;
+    border-radius: 15px;
 
-    backdrop-filter: blur(14px);
+    background:
+        rgba(15,15,20,.55);
 
-    font-size: 14px;
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
 
     cursor: pointer;
 
-    transition: .2s;
+    transition:
+        transform .15s ease,
+        background .2s ease;
+
+    box-shadow:
+        0 7px 25px
+        rgba(0,0,0,.22);
+
 }
 
 .bg-btn:hover {
-    background: rgba(255,255,255,.18);
+
+    background:
+        rgba(255,255,255,.18);
+
 }
 
 .bg-btn:active {
-    transform: scale(.95);
+
+    transform:
+        scale(.96);
+
+}
+
+.bg-btn.active {
+
+    background:
+        rgba(255,255,255,.25);
+
 }
 
 input[type="file"] {
+
     display: none;
+
 }
+
 
 /* =========================
    PLAYER
 ========================= */
 
 .player {
+
     position: fixed;
 
+    z-index: 30;
+
     left: 50%;
+
     bottom: 85px;
 
-    transform: translateX(-50%);
+    transform:
+        translateX(-50%);
 
-    width: calc(100% - 24px);
-    max-width: 460px;
+    width:
+        calc(100% - 24px);
 
-    padding: 12px 15px;
+    max-width: 480px;
+
+    min-height: 105px;
+
+    padding:
+        12px
+        14px;
 
     display: flex;
+
     align-items: center;
 
-    gap: 12px;
-
-    background:
-        rgba(20,18,24,.76);
+    gap: 11px;
 
     border:
         1px solid
-        rgba(255,255,255,.17);
+        rgba(255,255,255,.18);
 
-    border-radius: 40px;
+    border-radius: 38px;
 
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(20,18,25,.84),
+            rgba(10,10,15,.72)
+        );
+
+    backdrop-filter:
+        blur(25px);
+
+    -webkit-backdrop-filter:
+        blur(25px);
 
     box-shadow:
-        0 18px 55px rgba(0,0,0,.65),
-        0 0 30px rgba(80,120,255,.08);
 
-    z-index: 30;
+        0 20px 60px
+        rgba(0,0,0,.65),
+
+        inset 0 1px 0
+        rgba(255,255,255,.08);
+
 }
 
+
 /* =========================
-   ART
+   ALBUM ART
 ========================= */
 
 .album-art {
+
     width: 58px;
+
     height: 58px;
 
     flex-shrink: 0;
@@ -215,20 +339,23 @@ input[type="file"] {
 
     border-radius: 50%;
 
+    background: #222;
+
     box-shadow:
-        0 5px 18px rgba(0,0,0,.55);
+        0 5px 18px
+        rgba(0,0,0,.55);
+
+}
+
+.album-art.playing {
 
     animation:
         spin 12s linear infinite;
 
-    animation-play-state: paused;
-}
-
-.album-art.playing {
-    animation-play-state: running;
 }
 
 @keyframes spin {
+
     from {
         transform: rotate(0deg);
     }
@@ -236,93 +363,136 @@ input[type="file"] {
     to {
         transform: rotate(360deg);
     }
+
 }
 
+
 /* =========================
-   SONG INFO
+   SONG DETAILS
 ========================= */
 
 .song-info {
+
     flex: 1;
+
     min-width: 0;
+
 }
 
 .song-title {
-    font-size: 15px;
+
+    font-size: 14px;
+
     font-weight: 700;
 
     white-space: nowrap;
+
     overflow: hidden;
+
     text-overflow: ellipsis;
+
 }
 
 .song-artist {
-    margin-top: 3px;
 
-    font-size: 12px;
+    margin-top: 4px;
 
-    color: #cfcfcf;
+    font-size: 11px;
+
+    color:
+        rgba(255,255,255,.65);
 
     white-space: nowrap;
+
     overflow: hidden;
+
     text-overflow: ellipsis;
+
 }
+
 
 /* =========================
    PROGRESS
 ========================= */
 
 .progress {
+
     width: 100%;
+
     height: 4px;
 
-    margin-top: 8px;
+    margin-top: 9px;
+
+    border-radius: 10px;
 
     background:
         rgba(255,255,255,.20);
 
-    border-radius: 5px;
+    cursor: pointer;
 
     overflow: hidden;
 
-    cursor: pointer;
 }
 
 .progress-fill {
+
     width: 0%;
+
     height: 100%;
+
+    border-radius: 10px;
 
     background: white;
 
-    border-radius: 5px;
+    transition:
+        width .1s linear;
+
 }
 
 .time {
+
     display: flex;
-    justify-content: space-between;
+
+    justify-content:
+        space-between;
 
     margin-top: 4px;
 
+    color:
+        rgba(255,255,255,.55);
+
     font-size: 9px;
 
-    color: #aaa;
 }
+
 
 /* =========================
    CONTROLS
 ========================= */
 
 .controls {
+
     display: flex;
+
     align-items: center;
+
     gap: 3px;
 
     flex-shrink: 0;
+
 }
 
 .control {
-    width: 31px;
-    height: 31px;
+
+    width: 32px;
+
+    height: 32px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
 
     border: none;
 
@@ -334,16 +504,26 @@ input[type="file"] {
 
     cursor: pointer;
 
-    opacity: .9;
 }
 
 .control:active {
-    transform: scale(.9);
+
+    transform:
+        scale(.88);
+
 }
 
 .play {
-    width: 46px;
-    height: 46px;
+
+    width: 48px;
+
+    height: 48px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
 
     border: none;
 
@@ -353,40 +533,52 @@ input[type="file"] {
 
     color: black;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    font-size: 16px;
+    font-size: 17px;
 
     cursor: pointer;
 
     box-shadow:
-        0 5px 18px rgba(0,0,0,.45);
+        0 5px 20px
+        rgba(0,0,0,.45);
+
 }
+
+.play:active {
+
+    transform:
+        scale(.92);
+
+}
+
 
 /* =========================
    LOADING
 ========================= */
 
 .loading {
+
     position: fixed;
-
-    left: 50%;
-    bottom: 25px;
-
-    transform: translateX(-50%);
 
     z-index: 40;
 
-    padding: 8px 15px;
+    left: 50%;
+
+    bottom: 25px;
+
+    transform:
+        translateX(-50%);
+
+    padding:
+        8px
+        15px;
 
     border-radius: 20px;
 
     background:
-        rgba(0,0,0,.55);
+        rgba(0,0,0,.60);
 
-    backdrop-filter: blur(10px);
+    backdrop-filter:
+        blur(12px);
 
     font-size: 11px;
 
@@ -394,66 +586,156 @@ input[type="file"] {
 
     pointer-events: none;
 
-    transition: opacity .3s;
+    transition:
+        opacity .25s;
+
 }
 
 .loading.show {
+
     opacity: 1;
+
 }
+
 
 /* =========================
    MOBILE
 ========================= */
 
-@media(max-width:500px) {
+@media(max-width:520px) {
 
     .top-bar {
-        padding-top: 45px;
+
+        padding-top: 43px;
+
     }
 
     .clock {
-        font-size: 26px;
+
+        font-size: 27px;
+
     }
 
     .status {
+
+        padding:
+            9px
+            13px;
+
         font-size: 13px;
+
     }
 
     .bg-menu {
+
         top: 105px;
+
+        right: 10px;
+
+    }
+
+    .bg-btn {
+
+        min-width: 165px;
+
+        padding:
+            10px
+            13px;
+
+        font-size: 14px;
+
     }
 
     .player {
+
         bottom: 85px;
 
+        width:
+            calc(100% - 20px);
+
         padding:
-            11px 12px;
+            11px
+            12px;
 
         gap: 9px;
+
     }
 
     .album-art {
-        width: 52px;
-        height: 52px;
+
+        width: 54px;
+
+        height: 54px;
+
     }
 
     .song-title {
-        font-size: 14px;
-    }
 
-    .song-artist {
-        font-size: 11px;
+        font-size: 14px;
+
     }
 
     .play {
-        width: 43px;
-        height: 43px;
+
+        width: 45px;
+
+        height: 45px;
+
     }
+
 }
+
+
+/* Smaller phones */
+
+@media(max-width:370px) {
+
+    .bg-menu {
+
+        transform:
+            scale(.90);
+
+        transform-origin:
+            top right;
+
+    }
+
+    .player {
+
+        bottom: 72px;
+
+    }
+
+    .album-art {
+
+        width: 48px;
+
+        height: 48px;
+
+    }
+
+    .control {
+
+        width: 27px;
+
+    }
+
+    .play {
+
+        width: 42px;
+
+        height: 42px;
+
+    }
+
+}
+
 </style>
 </head>
 
+
 <body>
+
 
 <!-- =========================
      TOP
@@ -461,15 +743,21 @@ input[type="file"] {
 
 <div class="top-bar">
 
-    <div class="clock" id="clock">
+    <div
+        class="clock"
+        id="clock">
         00:00
     </div>
 
     <div class="status">
 
-        <span class="status-dot"></span>
+        <span
+            class="status-dot">
+        </span>
 
-        <span>ONLINE MUSIC</span>
+        <span>
+            ONLINE MUSIC
+        </span>
 
     </div>
 
@@ -477,37 +765,42 @@ input[type="file"] {
 
 
 <!-- =========================
-     BACKGROUNDS
+     BACKGROUND BUTTONS
 ========================= -->
 
 <div class="bg-menu">
 
     <button
         class="bg-btn"
+        data-bg="0"
         onclick="changeBackground(0)">
         🌊 Ocean
     </button>
 
     <button
         class="bg-btn"
+        data-bg="1"
         onclick="changeBackground(1)">
         🌌 Space
     </button>
 
     <button
         class="bg-btn"
+        data-bg="2"
         onclick="changeBackground(2)">
         🌲 Forest
     </button>
 
     <button
         class="bg-btn"
+        data-bg="3"
         onclick="changeBackground(3)">
         🌃 Night
     </button>
 
     <button
         class="bg-btn"
+        data-bg="4"
         onclick="changeBackground(4)">
         🌅 Sunset
     </button>
@@ -521,11 +814,10 @@ input[type="file"] {
     </button>
 
     <input
-        id="backgroundUpload"
         type="file"
+        id="backgroundUpload"
         accept="image/*"
-        onchange="customBackground(event)"
-    >
+        onchange="customBackground(event)">
 
 </div>
 
@@ -542,22 +834,21 @@ input[type="file"] {
 
         src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&q=80"
 
-        alt="Album Art"
-    >
+        alt="Album">
 
     <div class="song-info">
 
         <div
-            class="song-title"
-            id="songTitle">
+            id="songTitle"
+            class="song-title">
 
             Loading music...
 
         </div>
 
         <div
-            class="song-artist"
-            id="songArtist">
+            id="songArtist"
+            class="song-artist">
 
             Connecting to Jamendo...
 
@@ -593,27 +884,31 @@ input[type="file"] {
 
         <button
             class="control"
-            onclick="previousTrack()">
+            onclick="previousTrack()"
+            aria-label="Previous">
             ⏮
         </button>
 
         <button
             class="play"
             id="playButton"
-            onclick="togglePlay()">
+            onclick="togglePlay()"
+            aria-label="Play">
             ▶
         </button>
 
         <button
             class="control"
-            onclick="nextTrack()">
+            onclick="nextTrack()"
+            aria-label="Next">
             ⏭
         </button>
 
         <button
             class="control"
             id="volumeButton"
-            onclick="toggleMute()">
+            onclick="toggleMute()"
+            aria-label="Mute">
             🔊
         </button>
 
@@ -621,8 +916,6 @@ input[type="file"] {
 
 </div>
 
-
-<!-- AUDIO -->
 
 <audio
     id="audio"
@@ -632,8 +925,8 @@ input[type="file"] {
 
 
 <div
-    class="loading"
-    id="loading">
+    id="loading"
+    class="loading">
     Loading music...
 </div>
 
@@ -641,36 +934,72 @@ input[type="file"] {
 <script>
 
 /* =====================================================
-   JAMENDO CONFIGURATION
+   JAMENDO
 ===================================================== */
 
 /*
-   Jamendo provides this client ID specifically
-   for testing the READ API.
+   YOUR JAMENDO CLIENT ID
 
-   For your permanent public website, replace this
-   with your own client_id from the Jamendo Developer
-   Portal.
+   Never put your Client Secret here.
 */
 
-const JAMENDO_CLIENT_ID = "709fa152";
+const JAMENDO_CLIENT_ID =
+    "64b7bde3";
 
-
-/*
-   No fetch() here.
-
-   We use JSONP because Jamendo supports JSONP
-   callbacks for GET requests. This avoids the
-   browser CORS problem that was causing your
-   previous "Unable to load music" message.
-*/
 
 const JAMENDO_API =
     "https://api.jamendo.com/v3.0/tracks/";
 
 
+/*
+   Multiple queries are used.
+
+   If one Jamendo filter happens to return
+   zero results, the next one is tried.
+*/
+
+const MUSIC_QUERIES = [
+
+    {
+        featured: "1",
+        tags: "lounge"
+    },
+
+    {
+        featured: "1",
+        tags: "electronic"
+    },
+
+    {
+        featured: "1",
+        tags: "relaxation"
+    },
+
+    {
+        featured: "1",
+        tags: "pop"
+    },
+
+    {
+        fuzzytags: "chill+ambient"
+    },
+
+    {
+        fuzzytags: "electronic+relaxation"
+    },
+
+    {}
+
+];
+
+
 let tracks = [];
+
 let currentTrack = 0;
+
+let queryIndex = 0;
+
+let requestNumber = 0;
 
 
 /* =====================================================
@@ -712,148 +1041,247 @@ const loading =
 
 
 /* =====================================================
-   LOADING MESSAGE
+   LOADING
 ===================================================== */
 
-function showLoading(text) {
+function showLoading(message) {
 
-    loading.textContent = text;
+    loading.textContent =
+        message;
 
-    loading.classList.add("show");
+    loading.classList.add(
+        "show"
+    );
 
 }
 
 
 function hideLoading() {
 
-    loading.classList.remove("show");
+    loading.classList.remove(
+        "show"
+    );
 
 }
 
 
 /* =====================================================
-   JAMENDO JSONP
+   LOAD JAMENDO TRACKS
 ===================================================== */
 
-function loadJamendoMusic() {
+function loadJamendoTracks() {
 
-    showLoading("Loading music from Jamendo...");
+    queryIndex = 0;
 
-    songTitle.textContent =
-        "Loading music...";
+    requestTracks();
 
-    songArtist.textContent =
-        "Jamendo";
+}
+
+
+function requestTracks() {
+
+    if (
+        queryIndex >=
+        MUSIC_QUERIES.length
+    ) {
+
+        showError(
+            "Jamendo did not return playable tracks."
+        );
+
+        return;
+
+    }
+
+
+    showLoading(
+        "Finding music..."
+    );
+
+
+    const query =
+        MUSIC_QUERIES[
+            queryIndex
+        ];
+
+
+    queryIndex++;
+
+
+    requestNumber++;
+
+
+    const callbackName =
+        "jamendoCallback_" +
+        requestNumber;
 
 
     /*
-       Remove an old callback if one exists.
+       JSONP callback.
+
+       Jamendo supports JSONP for GET
+       requests.
     */
 
-    window.jamendoCallback = function(data) {
+    window[callbackName] =
+        function(data) {
 
-        try {
+            cleanup();
 
-            if (
-                !data ||
-                !data.results ||
-                !data.results.length
-            ) {
+            try {
 
-                throw new Error(
-                    "Jamendo returned no tracks."
+                if (
+                    !data ||
+                    !data.results
+                ) {
+
+                    throw new Error(
+                        "Invalid Jamendo response"
+                    );
+
+                }
+
+
+                const results =
+                    data.results.filter(
+                        track => {
+
+                            return (
+                                track &&
+                                track.id &&
+                                track.audio
+                            );
+
+                        }
+                    );
+
+
+                if (
+                    results.length === 0
+                ) {
+
+                    /*
+                       Try the next query.
+                    */
+
+                    requestTracks();
+
+                    return;
+
+                }
+
+
+                tracks =
+                    results;
+
+
+                shuffle(tracks);
+
+
+                currentTrack = 0;
+
+
+                loadTrack(
+                    currentTrack
                 );
+
+
+                hideLoading();
+
+
+                songArtist.textContent =
+                    tracks[0].artist_name ||
+                    "Jamendo Artist";
+
+
+            } catch(error) {
+
+                console.error(
+                    error
+                );
+
+                requestTracks();
 
             }
 
-
-            /*
-               Only keep tracks that contain
-               an audio stream.
-            */
-
-            tracks =
-                data.results.filter(
-                    track =>
-                        track.audio &&
-                        track.id
-                );
+        };
 
 
-            if (!tracks.length) {
+    function cleanup() {
 
-                throw new Error(
-                    "No playable tracks."
-                );
+        delete window[
+            callbackName
+        ];
 
-            }
+        if (script.parentNode) {
 
-
-            /*
-               Randomize playlist.
-            */
-
-            shuffle(tracks);
-
-
-            currentTrack = 0;
-
-            loadTrack(currentTrack);
-
-            hideLoading();
-
-
-        } catch(error) {
-
-            console.error(error);
-
-            showError(
-                "No playable music found"
-            );
+            script.parentNode
+                .removeChild(script);
 
         }
 
-    };
+    }
+
+
+    const script =
+        document.createElement(
+            "script"
+        );
+
+
+    const params =
+        new URLSearchParams();
+
+
+    params.set(
+        "client_id",
+        JAMENDO_CLIENT_ID
+    );
+
+    params.set(
+        "format",
+        "json"
+    );
+
+    params.set(
+        "callback",
+        callbackName
+    );
+
+    params.set(
+        "limit",
+        "50"
+    );
+
+    params.set(
+        "audioformat",
+        "mp32"
+    );
+
+    params.set(
+        "imagesize",
+        "300"
+    );
+
+    params.set(
+        "type",
+        "albumtrack"
+    );
 
 
     /*
-       JSONP script.
-
-       IMPORTANT:
-       Do not change callback=jamendoCallback.
+       Add current query parameters.
     */
 
-    const script =
-        document.createElement("script");
+    Object.keys(query)
+        .forEach(key => {
 
+            params.set(
+                key,
+                query[key]
+            );
 
-    const params = new URLSearchParams({
-
-        client_id:
-            JAMENDO_CLIENT_ID,
-
-        format:
-            "json",
-
-        limit:
-            "30",
-
-        featured:
-            "1",
-
-        tags:
-            "lounge",
-
-        audioformat:
-            "mp32",
-
-        imagesize:
-            "300",
-
-        callback:
-            "jamendoCallback"
-
-    });
+        });
 
 
     script.src =
@@ -865,50 +1293,33 @@ function loadJamendoMusic() {
     script.onerror =
         function() {
 
-            showError(
-                "Jamendo connection failed"
-            );
+            cleanup();
+
+            requestTracks();
 
         };
 
 
-    document.body.appendChild(script);
-
-}
-
-
-/* =====================================================
-   ERROR
-===================================================== */
-
-function showError(message) {
-
-    hideLoading();
-
-    songTitle.textContent =
-        "Unable to load music";
-
-    songArtist.textContent =
-        message;
-
-    playButton.textContent =
-        "▶";
-
-    albumArt.classList.remove(
-        "playing"
+    document.body.appendChild(
+        script
     );
 
 }
 
 
 /* =====================================================
-   LOAD TRACK
+   LOAD ONE TRACK
 ===================================================== */
 
 function loadTrack(index) {
 
-    if (!tracks.length)
+    if (
+        !tracks.length
+    ) {
+
         return;
+
+    }
 
 
     const track =
@@ -922,7 +1333,44 @@ function loadTrack(index) {
 
     songArtist.textContent =
         track.artist_name ||
-        "Unknown Artist";
+        "Jamendo Artist";
+
+
+    /*
+       Jamendo's /tracks endpoint returns
+       the stream URL in the "audio" field.
+
+       This is the URL we give directly
+       to the HTML5 audio player.
+    */
+
+    if (track.audio) {
+
+        audio.src =
+            track.audio;
+
+    } else {
+
+        /*
+           Safety fallback:
+           use Jamendo's documented
+           /tracks/file streaming endpoint.
+        */
+
+        audio.src =
+            "https://api.jamendo.com/v3.0/tracks/file/" +
+            "?client_id=" +
+            encodeURIComponent(
+                JAMENDO_CLIENT_ID
+            ) +
+            "&id=" +
+            encodeURIComponent(
+                track.id
+            ) +
+            "&action=stream" +
+            "&audioformat=mp32";
+
+    }
 
 
     if (track.image) {
@@ -930,21 +1378,14 @@ function loadTrack(index) {
         albumArt.src =
             track.image;
 
+    } else if (
+        track.album_image
+    ) {
+
+        albumArt.src =
+            track.album_image;
+
     }
-
-
-    /*
-       IMPORTANT:
-
-       Jamendo's API returns the direct
-       audio stream in track.audio.
-    */
-
-    audio.src =
-        track.audio;
-
-
-    audio.load();
 
 
     progressFill.style.width =
@@ -957,8 +1398,21 @@ function loadTrack(index) {
 
     duration.textContent =
         formatTime(
-            Number(track.duration)
+            Number(
+                track.duration
+            )
         );
+
+
+    playButton.textContent =
+        "▶";
+
+    albumArt.classList.remove(
+        "playing"
+    );
+
+
+    audio.load();
 
 }
 
@@ -969,42 +1423,61 @@ function loadTrack(index) {
 
 function playMusic() {
 
-    if (!audio.src) {
+    if (
+        !audio.src
+    ) {
 
         return;
 
     }
 
 
-    audio.play()
+    showLoading(
+        "Starting music..."
+    );
 
-        .then(() => {
 
-            playButton.textContent =
-                "❚❚";
+    const promise =
+        audio.play();
 
-            albumArt.classList.add(
-                "playing"
-            );
 
-        })
+    if (
+        promise &&
+        typeof promise.then ===
+        "function"
+    ) {
 
-        .catch(error => {
+        promise
+            .then(() => {
 
-            console.error(
-                "Playback error:",
-                error
-            );
+                hideLoading();
 
-            /*
-               Browser autoplay protection
-               may require another tap.
-            */
+                playButton.textContent =
+                    "❚❚";
 
-            playButton.textContent =
-                "▶";
+                albumArt.classList.add(
+                    "playing"
+                );
 
-        });
+            })
+            .catch(error => {
+
+                console.error(
+                    "Playback failed:",
+                    error
+                );
+
+                hideLoading();
+
+                playButton.textContent =
+                    "▶";
+
+                songArtist.textContent =
+                    "Tap Play to start music";
+
+            });
+
+    }
 
 }
 
@@ -1015,7 +1488,9 @@ function playMusic() {
 
 function togglePlay() {
 
-    if (audio.paused) {
+    if (
+        audio.paused
+    ) {
 
         playMusic();
 
@@ -1039,27 +1514,52 @@ function togglePlay() {
    NEXT
 ===================================================== */
 
-function nextTrack() {
+function nextTrack(
+    autoplay = true
+) {
 
-    if (!tracks.length)
+    if (
+        !tracks.length
+    ) {
+
         return;
+
+    }
 
 
     currentTrack++;
+
 
     if (
         currentTrack >=
         tracks.length
     ) {
 
+        shuffle(tracks);
+
         currentTrack = 0;
 
     }
 
 
-    loadTrack(currentTrack);
+    loadTrack(
+        currentTrack
+    );
 
-    playMusic();
+
+    if (autoplay) {
+
+        /*
+           Give the browser a moment to
+           load the new stream.
+        */
+
+        setTimeout(
+            playMusic,
+            250
+        );
+
+    }
 
 }
 
@@ -1070,13 +1570,21 @@ function nextTrack() {
 
 function previousTrack() {
 
-    if (!tracks.length)
+    if (
+        !tracks.length
+    ) {
+
         return;
+
+    }
 
 
     currentTrack--;
 
-    if (currentTrack < 0) {
+
+    if (
+        currentTrack < 0
+    ) {
 
         currentTrack =
             tracks.length - 1;
@@ -1084,22 +1592,66 @@ function previousTrack() {
     }
 
 
-    loadTrack(currentTrack);
+    loadTrack(
+        currentTrack
+    );
 
-    playMusic();
+
+    setTimeout(
+        playMusic,
+        250
+    );
 
 }
 
 
 /* =====================================================
-   AUTOMATIC NEXT TRACK
+   AUTOMATIC NEXT
 ===================================================== */
 
 audio.addEventListener(
     "ended",
     function() {
 
-        nextTrack();
+        nextTrack(true);
+
+    }
+);
+
+
+/* =====================================================
+   AUDIO ERROR
+===================================================== */
+
+audio.addEventListener(
+    "error",
+    function() {
+
+        console.error(
+            "Audio error:",
+            audio.error
+        );
+
+
+        /*
+           If a particular stream is unavailable,
+           automatically skip it.
+        */
+
+        if (
+            tracks.length > 1
+        ) {
+
+            setTimeout(
+                function() {
+
+                    nextTrack(true);
+
+                },
+                400
+            );
+
+        }
 
     }
 );
@@ -1113,8 +1665,14 @@ audio.addEventListener(
     "timeupdate",
     function() {
 
-        if (!audio.duration)
+        if (
+            !audio.duration ||
+            isNaN(audio.duration)
+        ) {
+
             return;
+
+        }
 
 
         const percent =
@@ -1145,10 +1703,18 @@ audio.addEventListener(
     "loadedmetadata",
     function() {
 
-        duration.textContent =
-            formatTime(
+        if (
+            isFinite(
                 audio.duration
-            );
+            )
+        ) {
+
+            duration.textContent =
+                formatTime(
+                    audio.duration
+                );
+
+        }
 
     }
 );
@@ -1162,8 +1728,13 @@ progress.addEventListener(
     "click",
     function(event) {
 
-        if (!audio.duration)
+        if (
+            !audio.duration
+        ) {
+
             return;
+
+        }
 
 
         const rect =
@@ -1176,8 +1747,14 @@ progress.addEventListener(
 
 
         const percent =
-            position /
-            rect.width;
+            Math.max(
+                0,
+                Math.min(
+                    1,
+                    position /
+                    rect.width
+                )
+            );
 
 
         audio.currentTime =
@@ -1189,46 +1766,17 @@ progress.addEventListener(
 
 
 /* =====================================================
-   AUDIO ERROR
+   FORMAT TIME
 ===================================================== */
 
-audio.addEventListener(
-    "error",
-    function() {
-
-        console.error(
-            "Audio stream error",
-            audio.error
-        );
-
-
-        /*
-           Try the next Jamendo track
-           if a particular stream fails.
-        */
-
-        if (tracks.length > 1) {
-
-            setTimeout(
-                nextTrack,
-                500
-            );
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   TIME
-===================================================== */
-
-function formatTime(seconds) {
+function formatTime(
+    seconds
+) {
 
     if (
         !seconds ||
-        isNaN(seconds)
+        isNaN(seconds) ||
+        seconds < 0
     ) {
 
         return "0:00";
@@ -1247,7 +1795,10 @@ function formatTime(seconds) {
             seconds % 60
         )
         .toString()
-        .padStart(2, "0");
+        .padStart(
+            2,
+            "0"
+        );
 
 
     return (
@@ -1266,7 +1817,8 @@ function formatTime(seconds) {
 function shuffle(array) {
 
     for (
-        let i = array.length - 1;
+        let i =
+            array.length - 1;
         i > 0;
         i--
     ) {
@@ -1316,20 +1868,22 @@ function toggleMute() {
 
 const backgrounds = [
 
-    "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=1600&q=80",
+    "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=1600&q=85",
 
-    "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1600&q=80",
+    "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1600&q=85",
 
-    "https://images.unsplash.com/photo-1448375240586-882707db888b?w=1600&q=80",
+    "https://images.unsplash.com/photo-1448375240586-882707db888b?w=1600&q=85",
 
-    "https://images.unsplash.com/photo-1519608487953-e999c86e7455?w=1600&q=80",
+    "https://images.unsplash.com/photo-1519608487953-e999c86e7455?w=1600&q=85",
 
-    "https://images.unsplash.com/photo-1500534623283-312aade485b7?w=1600&q=80"
+    "https://images.unsplash.com/photo-1500534623283-312aade485b7?w=1600&q=85"
 
 ];
 
 
-function changeBackground(index) {
+function changeBackground(
+    index
+) {
 
     const image =
         backgrounds[index];
@@ -1340,9 +1894,27 @@ function changeBackground(index) {
 
 
     localStorage.setItem(
-        "selectedBackground",
+        "musicRoomBackground",
         image
     );
+
+
+    document
+        .querySelectorAll(
+            ".bg-btn[data-bg]"
+        )
+        .forEach(
+            button => {
+
+                button.classList.toggle(
+                    "active",
+                    Number(
+                        button.dataset.bg
+                    ) === index
+                );
+
+            }
+        );
 
 }
 
@@ -1351,18 +1923,25 @@ function changeBackground(index) {
    CUSTOM BACKGROUND
 ===================================================== */
 
-function customBackground(event) {
+function customBackground(
+    event
+) {
 
     const file =
         event.target.files[0];
 
 
-    if (!file)
+    if (!file) {
+
         return;
+
+    }
 
 
     if (
-        !file.type.startsWith("image/")
+        !file.type.startsWith(
+            "image/"
+        )
     ) {
 
         alert(
@@ -1389,15 +1968,32 @@ function customBackground(event) {
                 `url("${image}")`;
 
 
-            localStorage.setItem(
-                "customBackground",
-                image
-            );
+            /*
+               Save locally so the image
+               remains after refreshing.
+            */
+
+            try {
+
+                localStorage.setItem(
+                    "musicRoomCustomBackground",
+                    image
+                );
+
+            } catch(error) {
+
+                console.warn(
+                    "Could not save image locally."
+                );
+
+            }
 
         };
 
 
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(
+        file
+    );
 
 }
 
@@ -1406,23 +2002,28 @@ function customBackground(event) {
    RESTORE BACKGROUND
 ===================================================== */
 
-const savedCustom =
+const savedCustomBackground =
     localStorage.getItem(
-        "customBackground"
+        "musicRoomCustomBackground"
     );
+
 
 const savedBackground =
     localStorage.getItem(
-        "selectedBackground"
+        "musicRoomBackground"
     );
 
 
-if (savedCustom) {
+if (
+    savedCustomBackground
+) {
 
     document.body.style.backgroundImage =
-        `url("${savedCustom}")`;
+        `url("${savedCustomBackground}")`;
 
-} else if (savedBackground) {
+} else if (
+    savedBackground
+) {
 
     document.body.style.backgroundImage =
         `url("${savedBackground}")`;
@@ -1464,60 +2065,10 @@ setInterval(
 
 
 /* =====================================================
-   START JAMENDO
+   START
 ===================================================== */
 
-loadJamendoMusic();
-
-
-/* =====================================================
-   FIRST USER INTERACTION
-===================================================== */
-
-/*
-   Browsers block unsolicited autoplay.
-
-   After the visitor interacts with the page,
-   we are allowed to attempt playback.
-
-   The normal Play button remains available.
-*/
-
-let firstInteraction = false;
-
-
-document.addEventListener(
-    "click",
-    function() {
-
-        if (firstInteraction)
-            return;
-
-
-        firstInteraction = true;
-
-
-        /*
-           Only start if music has already
-           loaded and the player is currently
-           paused.
-        */
-
-        if (
-            tracks.length &&
-            audio.paused &&
-            audio.src
-        ) {
-
-            playMusic();
-
-        }
-
-    },
-    {
-        once: false
-    }
-);
+loadJamendoTracks();
 
 </script>
 
