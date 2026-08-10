@@ -2,19 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-
 <meta name="viewport"
-      content="width=device-width,
-               initial-scale=1,
-               maximum-scale=1,
-               user-scalable=no">
-
-<meta name="theme-color" content="#0b0d12">
+      content="width=device-width, initial-scale=1.0,
+               maximum-scale=1.0, user-scalable=no">
 
 <title>Music Room</title>
 
 <style>
-
 * {
     box-sizing: border-box;
     margin: 0;
@@ -28,145 +22,102 @@ body {
 }
 
 body {
-
     min-height: 100vh;
-
-    color: white;
+    overflow: hidden;
 
     font-family:
         Arial,
         Helvetica,
         sans-serif;
 
-    overflow: hidden;
+    color: white;
 
     background:
         url("https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=1600&q=85")
-        center center / cover no-repeat fixed;
+        center / cover no-repeat fixed;
 
-    transition:
-        background-image .5s ease;
-
+    transition: background-image .5s ease;
 }
 
-/* Dark cinematic overlay */
-
+/* Background overlay */
 body::before {
-
     content: "";
-
     position: fixed;
-
     inset: 0;
 
     background:
         linear-gradient(
             180deg,
-            rgba(0,0,0,.20) 0%,
+            rgba(0,0,0,.18),
             rgba(0,0,0,.08) 40%,
-            rgba(0,0,0,.72) 100%
+            rgba(0,0,0,.76)
         );
 
     z-index: 0;
-
     pointer-events: none;
-
 }
 
 
 /* =========================
-   TOP BAR
+   CLOCK
 ========================= */
 
 .top-bar {
-
     position: relative;
-
     z-index: 10;
 
     width: 100%;
-
     max-width: 520px;
 
-    margin: 0 auto;
+    margin: auto;
 
-    padding:
-        48px
-        18px
-        0;
+    padding: 42px 18px 0;
 
     display: flex;
-
-    justify-content:
-        space-between;
-
-    align-items:
-        center;
-
+    justify-content: space-between;
+    align-items: center;
 }
 
 .clock {
-
     font-size: 28px;
-
     font-weight: 600;
 
-    letter-spacing: -.5px;
-
     text-shadow:
-        0 2px 10px rgba(0,0,0,.4);
-
+        0 2px 12px rgba(0,0,0,.5);
 }
 
 .status {
-
     display: flex;
-
     align-items: center;
-
     gap: 8px;
 
-    padding:
-        10px
-        16px;
+    padding: 9px 15px;
+
+    background:
+        rgba(0,0,0,.45);
 
     border:
         1px solid
-        rgba(255,255,255,.16);
+        rgba(255,255,255,.15);
 
     border-radius: 30px;
 
-    background:
-        rgba(10,10,14,.48);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
 
-    backdrop-filter:
-        blur(18px);
-
-    -webkit-backdrop-filter:
-        blur(18px);
-
-    font-size: 14px;
-
-    box-shadow:
-        0 8px 25px
-        rgba(0,0,0,.22);
-
+    font-size: 12px;
 }
 
 .status-dot {
-
-    width: 9px;
-
-    height: 9px;
+    width: 8px;
+    height: 8px;
 
     border-radius: 50%;
 
     background: #00ff88;
 
     box-shadow:
-        0 0 12px
-        #00ff88;
-
+        0 0 10px #00ff88;
 }
 
 
@@ -175,123 +126,133 @@ body::before {
 ========================= */
 
 .bg-menu {
-
     position: fixed;
-
-    z-index: 20;
+    z-index: 30;
 
     top: 105px;
-
     right: 12px;
 
     display: flex;
-
     flex-direction: column;
 
-    gap: 8px;
-
+    gap: 7px;
 }
 
 .bg-btn {
+    min-width: 165px;
 
-    min-width: 170px;
-
-    padding:
-        11px
-        14px;
-
-    color: white;
-
-    font-size: 14px;
+    padding: 9px 13px;
 
     border:
         1px solid
-        rgba(255,255,255,.16);
+        rgba(255,255,255,.17);
 
-    border-radius: 15px;
+    border-radius: 13px;
+
+    color: white;
 
     background:
-        rgba(15,15,20,.55);
+        rgba(0,0,0,.48);
 
-    backdrop-filter:
-        blur(18px);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
 
-    -webkit-backdrop-filter:
-        blur(18px);
+    font-size: 13px;
 
     cursor: pointer;
 
-    transition:
-        transform .15s ease,
-        background .2s ease;
-
-    box-shadow:
-        0 7px 25px
-        rgba(0,0,0,.22);
-
+    transition: .2s;
 }
 
 .bg-btn:hover {
-
     background:
         rgba(255,255,255,.18);
-
 }
 
 .bg-btn:active {
-
-    transform:
-        scale(.96);
-
+    transform: scale(.95);
 }
 
 .bg-btn.active {
-
     background:
-        rgba(255,255,255,.25);
-
+        rgba(255,255,255,.22);
 }
 
 input[type="file"] {
-
     display: none;
+}
 
+
+/* =====================================================
+   HIDDEN YOUTUBE PLAYER
+===================================================== */
+
+/*
+   The official YouTube iframe is kept inside this
+   container.
+
+   It is NOT replaced with a fake audio stream.
+*/
+
+.youtube-container {
+    position: fixed;
+
+    width: 320px;
+    height: 180px;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    z-index: 5;
+
+    opacity: 0.01;
+
+    pointer-events: none;
+
+    overflow: hidden;
 }
 
 
 /* =========================
-   PLAYER
+   PLAYER BAR
 ========================= */
 
 .player {
-
     position: fixed;
 
-    z-index: 30;
+    z-index: 40;
 
     left: 50%;
-
     bottom: 85px;
 
     transform:
         translateX(-50%);
 
     width:
-        calc(100% - 24px);
+        calc(100% - 20px);
 
     max-width: 480px;
 
-    min-height: 105px;
+    min-height: 104px;
 
     padding:
-        12px
-        14px;
+        11px 13px;
 
     display: flex;
 
     align-items: center;
 
-    gap: 11px;
+    gap: 10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(22,20,28,.86),
+            rgba(8,8,12,.74)
+        );
 
     border:
         1px solid
@@ -299,13 +260,6 @@ input[type="file"] {
 
     border-radius: 38px;
 
-    background:
-        linear-gradient(
-            135deg,
-            rgba(20,18,25,.84),
-            rgba(10,10,15,.72)
-        );
-
     backdrop-filter:
         blur(25px);
 
@@ -313,13 +267,11 @@ input[type="file"] {
         blur(25px);
 
     box-shadow:
-
         0 20px 60px
         rgba(0,0,0,.65),
 
         inset 0 1px 0
         rgba(255,255,255,.08);
-
 }
 
 
@@ -328,10 +280,8 @@ input[type="file"] {
 ========================= */
 
 .album-art {
-
-    width: 58px;
-
-    height: 58px;
+    width: 56px;
+    height: 56px;
 
     flex-shrink: 0;
 
@@ -344,18 +294,14 @@ input[type="file"] {
     box-shadow:
         0 5px 18px
         rgba(0,0,0,.55);
-
 }
 
 .album-art.playing {
-
     animation:
         spin 12s linear infinite;
-
 }
 
 @keyframes spin {
-
     from {
         transform: rotate(0deg);
     }
@@ -363,51 +309,38 @@ input[type="file"] {
     to {
         transform: rotate(360deg);
     }
-
 }
 
 
 /* =========================
-   SONG DETAILS
+   SONG INFORMATION
 ========================= */
 
 .song-info {
-
     flex: 1;
-
     min-width: 0;
-
 }
 
 .song-title {
-
     font-size: 14px;
-
     font-weight: 700;
 
     white-space: nowrap;
-
     overflow: hidden;
-
     text-overflow: ellipsis;
-
 }
 
 .song-artist {
-
     margin-top: 4px;
 
     font-size: 11px;
 
     color:
-        rgba(255,255,255,.65);
+        rgba(255,255,255,.62);
 
     white-space: nowrap;
-
     overflow: hidden;
-
     text-overflow: ellipsis;
-
 }
 
 
@@ -416,9 +349,7 @@ input[type="file"] {
 ========================= */
 
 .progress {
-
     width: 100%;
-
     height: 4px;
 
     margin-top: 9px;
@@ -426,16 +357,14 @@ input[type="file"] {
     border-radius: 10px;
 
     background:
-        rgba(255,255,255,.20);
-
-    cursor: pointer;
+        rgba(255,255,255,.18);
 
     overflow: hidden;
 
+    cursor: pointer;
 }
 
 .progress-fill {
-
     width: 0%;
 
     height: 100%;
@@ -445,12 +374,10 @@ input[type="file"] {
     background: white;
 
     transition:
-        width .1s linear;
-
+        width .15s linear;
 }
 
 .time {
-
     display: flex;
 
     justify-content:
@@ -459,10 +386,9 @@ input[type="file"] {
     margin-top: 4px;
 
     color:
-        rgba(255,255,255,.55);
+        rgba(255,255,255,.52);
 
     font-size: 9px;
-
 }
 
 
@@ -471,28 +397,18 @@ input[type="file"] {
 ========================= */
 
 .controls {
-
     display: flex;
 
     align-items: center;
 
-    gap: 3px;
+    gap: 2px;
 
     flex-shrink: 0;
-
 }
 
 .control {
-
-    width: 32px;
-
+    width: 30px;
     height: 32px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
 
     border: none;
 
@@ -504,26 +420,20 @@ input[type="file"] {
 
     cursor: pointer;
 
-}
-
-.control:active {
-
-    transform:
-        scale(.88);
-
-}
-
-.play {
-
-    width: 48px;
-
-    height: 48px;
-
     display: flex;
 
     align-items: center;
 
     justify-content: center;
+}
+
+.control:active {
+    transform: scale(.88);
+}
+
+.play {
+    width: 46px;
+    height: 46px;
 
     border: none;
 
@@ -533,49 +443,48 @@ input[type="file"] {
 
     color: black;
 
-    font-size: 17px;
+    font-size: 16px;
 
     cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
 
     box-shadow:
         0 5px 20px
         rgba(0,0,0,.45);
-
 }
 
 .play:active {
-
-    transform:
-        scale(.92);
-
+    transform: scale(.92);
 }
 
 
 /* =========================
-   LOADING
+   MESSAGE
 ========================= */
 
-.loading {
-
+.message {
     position: fixed;
 
-    z-index: 40;
+    z-index: 50;
 
     left: 50%;
-
     bottom: 25px;
 
     transform:
         translateX(-50%);
 
     padding:
-        8px
-        15px;
+        8px 14px;
 
     border-radius: 20px;
 
     background:
-        rgba(0,0,0,.60);
+        rgba(0,0,0,.58);
 
     backdrop-filter:
         blur(12px);
@@ -587,14 +496,11 @@ input[type="file"] {
     pointer-events: none;
 
     transition:
-        opacity .25s;
-
+        opacity .3s;
 }
 
-.loading.show {
-
+.message.show {
     opacity: 1;
-
 }
 
 
@@ -605,129 +511,65 @@ input[type="file"] {
 @media(max-width:520px) {
 
     .top-bar {
-
-        padding-top: 43px;
-
+        padding-top: 42px;
     }
 
     .clock {
-
         font-size: 27px;
-
     }
 
     .status {
-
-        padding:
-            9px
-            13px;
-
-        font-size: 13px;
-
+        font-size: 11px;
+        padding: 8px 12px;
     }
 
     .bg-menu {
-
-        top: 105px;
-
-        right: 10px;
-
+        top: 103px;
+        right: 9px;
     }
 
     .bg-btn {
-
-        min-width: 165px;
-
-        padding:
-            10px
-            13px;
-
-        font-size: 14px;
-
+        min-width: 155px;
+        font-size: 12px;
+        padding: 9px 11px;
     }
 
     .player {
-
         bottom: 85px;
-
         width:
-            calc(100% - 20px);
-
-        padding:
-            11px
-            12px;
-
-        gap: 9px;
-
+            calc(100% - 18px);
     }
 
     .album-art {
-
-        width: 54px;
-
-        height: 54px;
-
-    }
-
-    .song-title {
-
-        font-size: 14px;
-
+        width: 52px;
+        height: 52px;
     }
 
     .play {
-
-        width: 45px;
-
-        height: 45px;
-
+        width: 44px;
+        height: 44px;
     }
-
 }
-
-
-/* Smaller phones */
 
 @media(max-width:370px) {
 
-    .bg-menu {
-
-        transform:
-            scale(.90);
-
-        transform-origin:
-            top right;
-
-    }
-
     .player {
-
-        bottom: 72px;
-
+        bottom: 70px;
     }
 
     .album-art {
-
-        width: 48px;
-
-        height: 48px;
-
+        width: 47px;
+        height: 47px;
     }
 
     .control {
-
-        width: 27px;
-
+        width: 26px;
     }
 
     .play {
-
-        width: 42px;
-
-        height: 42px;
-
+        width: 41px;
+        height: 41px;
     }
-
 }
 
 </style>
@@ -738,7 +580,7 @@ input[type="file"] {
 
 
 <!-- =========================
-     TOP
+     TOP BAR
 ========================= -->
 
 <div class="top-bar">
@@ -751,12 +593,10 @@ input[type="file"] {
 
     <div class="status">
 
-        <span
-            class="status-dot">
-        </span>
+        <span class="status-dot"></span>
 
         <span>
-            ONLINE MUSIC
+            HINDI MUSIC
         </span>
 
     </div>
@@ -765,7 +605,7 @@ input[type="file"] {
 
 
 <!-- =========================
-     BACKGROUND BUTTONS
+     BACKGROUND MENU
 ========================= -->
 
 <div class="bg-menu">
@@ -822,8 +662,21 @@ input[type="file"] {
 </div>
 
 
+<!-- =====================================================
+     OFFICIAL YOUTUBE IFRAME PLAYER
+===================================================== -->
+
+<div
+    class="youtube-container"
+    id="youtube-container">
+
+    <div id="youtube-player"></div>
+
+</div>
+
+
 <!-- =========================
-     PLAYER
+     CUSTOM PLAYER
 ========================= -->
 
 <div class="player">
@@ -834,23 +687,23 @@ input[type="file"] {
 
         src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&q=80"
 
-        alt="Album">
+        alt="Music">
 
     <div class="song-info">
 
         <div
-            id="songTitle"
-            class="song-title">
+            class="song-title"
+            id="songTitle">
 
-            Loading music...
+            Hindi Music
 
         </div>
 
         <div
-            id="songArtist"
-            class="song-artist">
+            class="song-artist"
+            id="songArtist">
 
-            Connecting to Jamendo...
+            Tap Play to start
 
         </div>
 
@@ -908,7 +761,7 @@ input[type="file"] {
             class="control"
             id="volumeButton"
             onclick="toggleMute()"
-            aria-label="Mute">
+            aria-label="Volume">
             🔊
         </button>
 
@@ -917,565 +770,345 @@ input[type="file"] {
 </div>
 
 
-<audio
-    id="audio"
-    preload="metadata"
-    playsinline>
-</audio>
-
-
 <div
-    id="loading"
-    class="loading">
-    Loading music...
+    class="message"
+    id="message">
+    Loading...
 </div>
+
+
+<!-- =====================================================
+     YOUTUBE IFRAME PLAYER API
+===================================================== -->
+
+<script src="https://www.youtube.com/iframe_api"></script>
 
 
 <script>
 
 /* =====================================================
-   JAMENDO
+   YOUTUBE PLAYLIST
 ===================================================== */
 
 /*
-   YOUR JAMENDO CLIENT ID
+   Replace this playlist ID if you want another
+   Hindi/Bollywood playlist.
 
-   Never put your Client Secret here.
+   This is a playlist ID, NOT a video ID.
 */
 
-const JAMENDO_CLIENT_ID =
-    "64b7bde3";
+const YOUTUBE_PLAYLIST_ID =
+    "PLo7WLtfSrhdYYdAM4UWSaUy4xG7_GZqXD";
 
 
-const JAMENDO_API =
-    "https://api.jamendo.com/v3.0/tracks/";
+/* =====================================================
+   GLOBALS
+===================================================== */
 
+let player = null;
 
-/*
-   Multiple queries are used.
+let playerReady = false;
 
-   If one Jamendo filter happens to return
-   zero results, the next one is tried.
-*/
+let progressTimer = null;
 
-const MUSIC_QUERIES = [
-
-    {
-        featured: "1",
-        tags: "lounge"
-    },
-
-    {
-        featured: "1",
-        tags: "electronic"
-    },
-
-    {
-        featured: "1",
-        tags: "relaxation"
-    },
-
-    {
-        featured: "1",
-        tags: "pop"
-    },
-
-    {
-        fuzzytags: "chill+ambient"
-    },
-
-    {
-        fuzzytags: "electronic+relaxation"
-    },
-
-    {}
-
-];
-
-
-let tracks = [];
-
-let currentTrack = 0;
-
-let queryIndex = 0;
-
-let requestNumber = 0;
+let currentPlaylistIndex = 0;
 
 
 /* =====================================================
    ELEMENTS
 ===================================================== */
 
-const audio =
-    document.getElementById("audio");
-
 const albumArt =
-    document.getElementById("albumArt");
+    document.getElementById(
+        "albumArt"
+    );
 
 const songTitle =
-    document.getElementById("songTitle");
+    document.getElementById(
+        "songTitle"
+    );
 
 const songArtist =
-    document.getElementById("songArtist");
+    document.getElementById(
+        "songArtist"
+    );
 
 const playButton =
-    document.getElementById("playButton");
+    document.getElementById(
+        "playButton"
+    );
 
 const volumeButton =
-    document.getElementById("volumeButton");
+    document.getElementById(
+        "volumeButton"
+    );
 
 const progress =
-    document.getElementById("progress");
+    document.getElementById(
+        "progress"
+    );
 
 const progressFill =
-    document.getElementById("progressFill");
+    document.getElementById(
+        "progressFill"
+    );
 
 const currentTime =
-    document.getElementById("currentTime");
+    document.getElementById(
+        "currentTime"
+    );
 
 const duration =
-    document.getElementById("duration");
+    document.getElementById(
+        "duration"
+    );
 
-const loading =
-    document.getElementById("loading");
+const message =
+    document.getElementById(
+        "message"
+    );
 
 
 /* =====================================================
-   LOADING
+   YOUTUBE API READY
 ===================================================== */
 
-function showLoading(message) {
+function onYouTubeIframeAPIReady() {
 
-    loading.textContent =
-        message;
+    player =
+        new YT.Player(
+            "youtube-player",
+            {
 
-    loading.classList.add(
-        "show"
-    );
+                width: "320",
 
-}
+                height: "180",
 
+                playerVars: {
 
-function hideLoading() {
+                    autoplay: 0,
 
-    loading.classList.remove(
-        "show"
-    );
+                    controls: 1,
 
-}
+                    playsinline: 1,
 
+                    rel: 0,
 
-/* =====================================================
-   LOAD JAMENDO TRACKS
-===================================================== */
+                    listType:
+                        "playlist",
 
-function loadJamendoTracks() {
+                    list:
+                        YOUTUBE_PLAYLIST_ID
 
-    queryIndex = 0;
+                },
 
-    requestTracks();
+                events: {
 
-}
+                    onReady:
+                        onPlayerReady,
 
+                    onStateChange:
+                        onPlayerStateChange,
 
-function requestTracks() {
-
-    if (
-        queryIndex >=
-        MUSIC_QUERIES.length
-    ) {
-
-        showError(
-            "Jamendo did not return playable tracks."
-        );
-
-        return;
-
-    }
-
-
-    showLoading(
-        "Finding music..."
-    );
-
-
-    const query =
-        MUSIC_QUERIES[
-            queryIndex
-        ];
-
-
-    queryIndex++;
-
-
-    requestNumber++;
-
-
-    const callbackName =
-        "jamendoCallback_" +
-        requestNumber;
-
-
-    /*
-       JSONP callback.
-
-       Jamendo supports JSONP for GET
-       requests.
-    */
-
-    window[callbackName] =
-        function(data) {
-
-            cleanup();
-
-            try {
-
-                if (
-                    !data ||
-                    !data.results
-                ) {
-
-                    throw new Error(
-                        "Invalid Jamendo response"
-                    );
+                    onError:
+                        onPlayerError
 
                 }
-
-
-                const results =
-                    data.results.filter(
-                        track => {
-
-                            return (
-                                track &&
-                                track.id &&
-                                track.audio
-                            );
-
-                        }
-                    );
-
-
-                if (
-                    results.length === 0
-                ) {
-
-                    /*
-                       Try the next query.
-                    */
-
-                    requestTracks();
-
-                    return;
-
-                }
-
-
-                tracks =
-                    results;
-
-
-                shuffle(tracks);
-
-
-                currentTrack = 0;
-
-
-                loadTrack(
-                    currentTrack
-                );
-
-
-                hideLoading();
-
-
-                songArtist.textContent =
-                    tracks[0].artist_name ||
-                    "Jamendo Artist";
-
-
-            } catch(error) {
-
-                console.error(
-                    error
-                );
-
-                requestTracks();
 
             }
+        );
 
-        };
+}
 
 
-    function cleanup() {
+/* =====================================================
+   PLAYER READY
+===================================================== */
 
-        delete window[
-            callbackName
-        ];
+function onPlayerReady(event) {
 
-        if (script.parentNode) {
+    playerReady = true;
 
-            script.parentNode
-                .removeChild(script);
+    /*
+       Load the playlist.
 
-        }
+       We don't autoplay because browsers generally
+       require user interaction for playback.
+    */
+
+    player.cuePlaylist({
+
+        list:
+            YOUTUBE_PLAYLIST_ID,
+
+        listType:
+            "playlist",
+
+        index: 0
+
+    });
+
+
+    /*
+       Shuffle the playlist so the music doesn't
+       always start at the same song.
+    */
+
+    try {
+
+        player.setShuffle(true);
+
+    } catch(error) {
+
+        console.log(
+            "Shuffle unavailable"
+        );
 
     }
 
 
-    const script =
-        document.createElement(
-            "script"
-        );
-
-
-    const params =
-        new URLSearchParams();
-
-
-    params.set(
-        "client_id",
-        JAMENDO_CLIENT_ID
-    );
-
-    params.set(
-        "format",
-        "json"
-    );
-
-    params.set(
-        "callback",
-        callbackName
-    );
-
-    params.set(
-        "limit",
-        "50"
-    );
-
-    params.set(
-        "audioformat",
-        "mp32"
-    );
-
-    params.set(
-        "imagesize",
-        "300"
-    );
-
-    params.set(
-        "type",
-        "albumtrack"
+    showMessage(
+        "Tap ▶ to start Hindi music"
     );
 
 
-    /*
-       Add current query parameters.
-    */
-
-    Object.keys(query)
-        .forEach(key => {
-
-            params.set(
-                key,
-                query[key]
-            );
-
-        });
-
-
-    script.src =
-        JAMENDO_API +
-        "?" +
-        params.toString();
-
-
-    script.onerror =
-        function() {
-
-            cleanup();
-
-            requestTracks();
-
-        };
-
-
-    document.body.appendChild(
-        script
+    setTimeout(
+        hideMessage,
+        2500
     );
 
 }
 
 
 /* =====================================================
-   LOAD ONE TRACK
+   STATE CHANGE
 ===================================================== */
 
-function loadTrack(index) {
+function onPlayerStateChange(event) {
+
+    /*
+       PLAYING = 1
+    */
 
     if (
-        !tracks.length
+        event.data ===
+        YT.PlayerState.PLAYING
     ) {
 
-        return;
+        playButton.textContent =
+            "❚❚";
+
+        albumArt.classList.add(
+            "playing"
+        );
+
+        startProgress();
+
+        updateSongInfo();
 
     }
 
 
-    const track =
-        tracks[index];
+    /*
+       PAUSED = 2
+    */
 
+    else if (
+        event.data ===
+        YT.PlayerState.PAUSED
+    ) {
 
-    songTitle.textContent =
-        track.name ||
-        "Unknown Track";
+        playButton.textContent =
+            "▶";
 
+        albumArt.classList.remove(
+            "playing"
+        );
 
-    songArtist.textContent =
-        track.artist_name ||
-        "Jamendo Artist";
+        stopProgress();
+
+    }
 
 
     /*
-       Jamendo's /tracks endpoint returns
-       the stream URL in the "audio" field.
-
-       This is the URL we give directly
-       to the HTML5 audio player.
+       ENDED = 0
     */
 
-    if (track.audio) {
+    else if (
+        event.data ===
+        YT.PlayerState.ENDED
+    ) {
 
-        audio.src =
-            track.audio;
+        playButton.textContent =
+            "▶";
 
-    } else {
+        albumArt.classList.remove(
+            "playing"
+        );
+
+        stopProgress();
 
         /*
-           Safety fallback:
-           use Jamendo's documented
-           /tracks/file streaming endpoint.
+           The playlist itself handles the next
+           video. We refresh our information.
         */
 
-        audio.src =
-            "https://api.jamendo.com/v3.0/tracks/file/" +
-            "?client_id=" +
-            encodeURIComponent(
-                JAMENDO_CLIENT_ID
-            ) +
-            "&id=" +
-            encodeURIComponent(
-                track.id
-            ) +
-            "&action=stream" +
-            "&audioformat=mp32";
-
-    }
-
-
-    if (track.image) {
-
-        albumArt.src =
-            track.image;
-
-    } else if (
-        track.album_image
-    ) {
-
-        albumArt.src =
-            track.album_image;
-
-    }
-
-
-    progressFill.style.width =
-        "0%";
-
-
-    currentTime.textContent =
-        "0:00";
-
-
-    duration.textContent =
-        formatTime(
-            Number(
-                track.duration
-            )
+        setTimeout(
+            updateSongInfo,
+            500
         );
 
-
-    playButton.textContent =
-        "▶";
-
-    albumArt.classList.remove(
-        "playing"
-    );
-
-
-    audio.load();
+    }
 
 }
 
 
 /* =====================================================
-   PLAY
+   PLAYER ERROR
 ===================================================== */
 
-function playMusic() {
+function onPlayerError(event) {
 
-    if (
-        !audio.src
-    ) {
-
-        return;
-
-    }
-
-
-    showLoading(
-        "Starting music..."
+    console.error(
+        "YouTube Player Error:",
+        event.data
     );
 
 
-    const promise =
-        audio.play();
+    /*
+       Error 150 / 101 generally means that the
+       video cannot be embedded.
 
+       Move to the next video instead of breaking
+       the whole player.
+    */
 
     if (
-        promise &&
-        typeof promise.then ===
-        "function"
+        event.data === 101 ||
+        event.data === 150 ||
+        event.data === 100
     ) {
 
-        promise
-            .then(() => {
+        showMessage(
+            "Skipping unavailable video..."
+        );
 
-                hideLoading();
 
-                playButton.textContent =
-                    "❚❚";
+        setTimeout(
+            function() {
 
-                albumArt.classList.add(
-                    "playing"
-                );
+                if (
+                    player &&
+                    playerReady
+                ) {
 
-            })
-            .catch(error => {
+                    player.nextVideo();
 
-                console.error(
-                    "Playback failed:",
-                    error
-                );
+                }
 
-                hideLoading();
-
-                playButton.textContent =
-                    "▶";
-
-                songArtist.textContent =
-                    "Tap Play to start music";
-
-            });
+            },
+            800
+        );
 
     }
 
@@ -1489,21 +1122,39 @@ function playMusic() {
 function togglePlay() {
 
     if (
-        audio.paused
+        !player ||
+        !playerReady
     ) {
 
-        playMusic();
+        showMessage(
+            "YouTube player is loading..."
+        );
+
+        return;
+
+    }
+
+
+    const state =
+        player.getPlayerState();
+
+
+    if (
+        state ===
+        YT.PlayerState.PLAYING
+    ) {
+
+        player.pauseVideo();
 
     } else {
 
-        audio.pause();
+        /*
+           This call occurs from the user's
+           button tap, so it satisfies normal
+           browser playback requirements.
+        */
 
-        playButton.textContent =
-            "▶";
-
-        albumArt.classList.remove(
-            "playing"
-        );
+        player.playVideo();
 
     }
 
@@ -1514,12 +1165,11 @@ function togglePlay() {
    NEXT
 ===================================================== */
 
-function nextTrack(
-    autoplay = true
-) {
+function nextTrack() {
 
     if (
-        !tracks.length
+        !player ||
+        !playerReady
     ) {
 
         return;
@@ -1527,39 +1177,7 @@ function nextTrack(
     }
 
 
-    currentTrack++;
-
-
-    if (
-        currentTrack >=
-        tracks.length
-    ) {
-
-        shuffle(tracks);
-
-        currentTrack = 0;
-
-    }
-
-
-    loadTrack(
-        currentTrack
-    );
-
-
-    if (autoplay) {
-
-        /*
-           Give the browser a moment to
-           load the new stream.
-        */
-
-        setTimeout(
-            playMusic,
-            250
-        );
-
-    }
+    player.nextVideo();
 
 }
 
@@ -1571,7 +1189,8 @@ function nextTrack(
 function previousTrack() {
 
     if (
-        !tracks.length
+        !player ||
+        !playerReady
     ) {
 
         return;
@@ -1579,145 +1198,136 @@ function previousTrack() {
     }
 
 
-    currentTrack--;
-
-
-    if (
-        currentTrack < 0
-    ) {
-
-        currentTrack =
-            tracks.length - 1;
-
-    }
-
-
-    loadTrack(
-        currentTrack
-    );
-
-
-    setTimeout(
-        playMusic,
-        250
-    );
+    player.previousVideo();
 
 }
 
 
 /* =====================================================
-   AUTOMATIC NEXT
+   MUTE
 ===================================================== */
 
-audio.addEventListener(
-    "ended",
-    function() {
+function toggleMute() {
 
-        nextTrack(true);
+    if (
+        !player ||
+        !playerReady
+    ) {
+
+        return;
 
     }
-);
+
+
+    if (
+        player.isMuted()
+    ) {
+
+        player.unMute();
+
+        volumeButton.textContent =
+            "🔊";
+
+    } else {
+
+        player.mute();
+
+        volumeButton.textContent =
+            "🔇";
+
+    }
+
+}
 
 
 /* =====================================================
-   AUDIO ERROR
+   PROGRESS UPDATE
 ===================================================== */
 
-audio.addEventListener(
-    "error",
-    function() {
+function startProgress() {
 
-        console.error(
-            "Audio error:",
-            audio.error
+    stopProgress();
+
+
+    progressTimer =
+        setInterval(
+            updateProgress,
+            250
+        );
+
+}
+
+
+function stopProgress() {
+
+    if (
+        progressTimer
+    ) {
+
+        clearInterval(
+            progressTimer
+        );
+
+        progressTimer = null;
+
+    }
+
+}
+
+
+function updateProgress() {
+
+    if (
+        !player ||
+        !playerReady
+    ) {
+
+        return;
+
+    }
+
+
+    const current =
+        player.getCurrentTime();
+
+
+    const total =
+        player.getDuration();
+
+
+    if (
+        !total ||
+        !isFinite(total)
+    ) {
+
+        return;
+
+    }
+
+
+    const percentage =
+        (
+            current /
+            total
+        ) * 100;
+
+
+    progressFill.style.width =
+        percentage + "%";
+
+
+    currentTime.textContent =
+        formatTime(
+            current
         );
 
 
-        /*
-           If a particular stream is unavailable,
-           automatically skip it.
-        */
+    duration.textContent =
+        formatTime(
+            total
+        );
 
-        if (
-            tracks.length > 1
-        ) {
-
-            setTimeout(
-                function() {
-
-                    nextTrack(true);
-
-                },
-                400
-            );
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   PROGRESS
-===================================================== */
-
-audio.addEventListener(
-    "timeupdate",
-    function() {
-
-        if (
-            !audio.duration ||
-            isNaN(audio.duration)
-        ) {
-
-            return;
-
-        }
-
-
-        const percent =
-            (
-                audio.currentTime /
-                audio.duration
-            ) * 100;
-
-
-        progressFill.style.width =
-            percent + "%";
-
-
-        currentTime.textContent =
-            formatTime(
-                audio.currentTime
-            );
-
-    }
-);
-
-
-/* =====================================================
-   METADATA
-===================================================== */
-
-audio.addEventListener(
-    "loadedmetadata",
-    function() {
-
-        if (
-            isFinite(
-                audio.duration
-            )
-        ) {
-
-            duration.textContent =
-                formatTime(
-                    audio.duration
-                );
-
-        }
-
-    }
-);
+}
 
 
 /* =====================================================
@@ -1729,7 +1339,22 @@ progress.addEventListener(
     function(event) {
 
         if (
-            !audio.duration
+            !player ||
+            !playerReady
+        ) {
+
+            return;
+
+        }
+
+
+        const total =
+            player.getDuration();
+
+
+        if (
+            !total ||
+            !isFinite(total)
         ) {
 
             return;
@@ -1757,26 +1382,98 @@ progress.addEventListener(
             );
 
 
-        audio.currentTime =
-            percent *
-            audio.duration;
+        player.seekTo(
+            total * percent,
+            true
+        );
 
     }
 );
 
 
 /* =====================================================
+   SONG INFORMATION
+===================================================== */
+
+function updateSongInfo() {
+
+    if (
+        !player ||
+        !playerReady
+    ) {
+
+        return;
+
+    }
+
+
+    try {
+
+        const data =
+            player.getVideoData();
+
+
+        if (
+            data &&
+            data.title
+        ) {
+
+            songTitle.textContent =
+                data.title;
+
+        }
+
+
+        if (
+            data &&
+            data.author
+        ) {
+
+            songArtist.textContent =
+                data.author;
+
+        }
+
+
+        /*
+           YouTube thumbnail.
+
+           This works for normal YouTube videos.
+        */
+
+        if (
+            data &&
+            data.video_id
+        ) {
+
+            albumArt.src =
+                "https://i.ytimg.com/vi/" +
+                data.video_id +
+                "/hqdefault.jpg";
+
+        }
+
+    } catch(error) {
+
+        console.log(
+            "Could not update metadata",
+            error
+        );
+
+    }
+
+}
+
+
+/* =====================================================
    FORMAT TIME
 ===================================================== */
 
-function formatTime(
-    seconds
-) {
+function formatTime(seconds) {
 
     if (
         !seconds ||
-        isNaN(seconds) ||
-        seconds < 0
+        isNaN(seconds)
     ) {
 
         return "0:00";
@@ -1811,53 +1508,26 @@ function formatTime(
 
 
 /* =====================================================
-   SHUFFLE
+   MESSAGE
 ===================================================== */
 
-function shuffle(array) {
+function showMessage(text) {
 
-    for (
-        let i =
-            array.length - 1;
-        i > 0;
-        i--
-    ) {
+    message.textContent =
+        text;
 
-        const j =
-            Math.floor(
-                Math.random() *
-                (i + 1)
-            );
-
-
-        [
-            array[i],
-            array[j]
-        ] =
-        [
-            array[j],
-            array[i]
-        ];
-
-    }
+    message.classList.add(
+        "show"
+    );
 
 }
 
 
-/* =====================================================
-   MUTE
-===================================================== */
+function hideMessage() {
 
-function toggleMute() {
-
-    audio.muted =
-        !audio.muted;
-
-
-    volumeButton.textContent =
-        audio.muted
-        ? "🔇"
-        : "🔊";
+    message.classList.remove(
+        "show"
+    );
 
 }
 
@@ -1881,9 +1551,7 @@ const backgrounds = [
 ];
 
 
-function changeBackground(
-    index
-) {
+function changeBackground(index) {
 
     const image =
         backgrounds[index];
@@ -1923,9 +1591,7 @@ function changeBackground(
    CUSTOM BACKGROUND
 ===================================================== */
 
-function customBackground(
-    event
-) {
+function customBackground(event) {
 
     const file =
         event.target.files[0];
@@ -1968,11 +1634,6 @@ function customBackground(
                 `url("${image}")`;
 
 
-            /*
-               Save locally so the image
-               remains after refreshing.
-            */
-
             try {
 
                 localStorage.setItem(
@@ -1983,7 +1644,7 @@ function customBackground(
             } catch(error) {
 
                 console.warn(
-                    "Could not save image locally."
+                    "Could not save custom background."
                 );
 
             }
@@ -2062,13 +1723,6 @@ setInterval(
     updateClock,
     1000
 );
-
-
-/* =====================================================
-   START
-===================================================== */
-
-loadJamendoTracks();
 
 </script>
 
